@@ -34,3 +34,7 @@ text = "0"
 
 [node name="OnTheFloor" type="Label" parent="Debug"]
 layout_mode = 2
+
+[node name="Direction" type="Label" parent="Debug"]
+layout_mode = 2
+text = "Direction:"

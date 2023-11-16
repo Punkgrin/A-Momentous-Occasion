@@ -1,7 +1,5 @@
 extends RigidBody3D
 
-var on_the_floor
-var speed
 const player = true
 const walk = 8.0
 const sprint = 12.0
@@ -18,7 +16,9 @@ var t_bob = 0.0
 const base_fov = 90
 const fov_change = 1.1
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
+var on_the_floor
+var speed
+
 var gravity = 9.8
 var double_jump = 0
 
@@ -42,10 +42,10 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	# Knockoff is_on_floor() but for rigidbodies
 	on_the_floor = $CollisionShape3D/FloorCheck.is_colliding()
-	# Gets the input direction and handle the movement/deceleration.
+	# Gets the input direction and handles the movement/deceleration.
 	var input_dir = Input.get_vector("Left", "Right", "Forward", "Back")
 	var direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	# Gravity
+	# Restores double jump
 	if on_the_floor:
 		double_jump = 2
 	# Jumping and jump effects
@@ -92,12 +92,12 @@ func _physics_process(delta):
 			linear_velocity.z = lerp(linear_velocity.z, direction.z * speed, delta * 50.0)
 			physics.friction = 1
 	else:
-		linear_velocity.x += lerp(linear_velocity.x, direction.x * speed, delta * 3.0)
-		linear_velocity.z += lerp(linear_velocity.x, direction.x * speed, delta * 3.0)
-	# Head bob
+			linear_velocity.x = lerp(linear_velocity.x, direction.x * speed, delta * 3.0)
+			linear_velocity.z = lerp(linear_velocity.z, direction.z * speed, delta * 3.0)
+	# Headbob
 	t_bob += delta * linear_velocity.length() * float(on_the_floor)
 	camera.transform.origin = _headbob(t_bob)
-	# FOV
+	# FOV change
 	var velocity_clamped = clamp(linear_velocity.length(), 0.5, sprint * 2)
 	var target_fov = base_fov + fov_change * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
