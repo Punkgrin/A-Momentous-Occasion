@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://btje00jyp5xy6"]
+
+[node name="GameplayUI" type="CanvasLayer"]
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -713.0
+offset_top = -141.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 100
+max_value = 10.0
+show_percentage = false
+
+[node name="Debug" type="GridContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="XVelocity" type="Label" parent="Debug"]
+layout_mode = 2
+text = "0"
+
+[node name="ZVelocity" type="Label" parent="Debug"]
+layout_mode = 2
+text = "0"
+
+[node name="Friction" type="Label" parent="Debug"]
+layout_mode = 2
+text = "0"
+
+[node name="OnTheFloor" type="Label" parent="Debug"]
+layout_mode = 2

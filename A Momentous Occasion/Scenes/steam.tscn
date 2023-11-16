@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://blm5vl76ke3r2"]
+
+[ext_resource type="Script" path="res://Scripts/jump_effect.gd" id="1_ece81"]
+
+[sub_resource type="Curve" id="Curve_lm0hm"]
+_data = [Vector2(0.590909, 1), 0.0, -0.180117, 0, 0, Vector2(1, 0), -8.28539, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_oeuar"]
+curve = SubResource("Curve_lm0hm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3uvcn"]
+direction = Vector3(0, 0, -3)
+spread = 20.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+scale_min = 0.05
+scale_max = 0.1
+scale_curve = SubResource("CurveTexture_oeuar")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qc65l"]
+diffuse_mode = 3
+specular_mode = 1
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_68sn0"]
+material = SubResource("StandardMaterial3D_qc65l")
+
+[node name="Steam" type="GPUParticles3D"]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+emitting = false
+amount = 50
+one_shot = true
+explosiveness = 0.9
+transform_align = 1
+process_material = SubResource("ParticleProcessMaterial_3uvcn")
+draw_pass_1 = SubResource("SphereMesh_68sn0")
+script = ExtResource("1_ece81")

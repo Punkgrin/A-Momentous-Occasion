@@ -1,0 +1,139 @@
+[gd_scene load_steps=17 format=3 uid="uid://b4hgis3fu0l50"]
+
+[ext_resource type="Script" path="res://Scripts/testing.gd" id="1_3ogu4"]
+[ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_4uqqt"]
+[ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_usoax"]
+[ext_resource type="Texture2D" uid="uid://dr256dgheo2j" path="res://pumpkinspice.png" id="3_h65g3"]
+[ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
+[ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="6_wi400"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Shaders/steam_shade.tres" id="7_njdky"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3g3gn"]
+sky_top_color = Color(0, 0.478431, 0.713726, 1)
+sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
+sky_curve = 0.106066
+sky_energy_multiplier = 1.5
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ntr8q"]
+sky_material = SubResource("ProceduralSkyMaterial_3g3gn")
+
+[sub_resource type="Environment" id="Environment_b63ry"]
+background_mode = 2
+sky = SubResource("Sky_ntr8q")
+fog_sky_affect = 0.195
+volumetric_fog_density = 0.015
+adjustment_brightness = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_i808c"]
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 10.0
+
+[sub_resource type="Animation" id="Animation_rt22i"]
+resource_name = "splash_screen"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.490196), Color(0, 0, 0, 0.490196), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Logo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u5002"]
+_data = {
+"splash_screen": SubResource("Animation_rt22i")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4yeuh"]
+albedo_texture = ExtResource("1_usoax")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpgex"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("1_usoax")
+roughness = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jmyd1"]
+albedo_texture = ExtResource("1_usoax")
+
+[node name="testing" type="Node3D"]
+script = ExtResource("1_3ogu4")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_b63ry")
+camera_attributes = SubResource("CameraAttributesPractical_i808c")
+
+[node name="Player" parent="." instance=ExtResource("1_4uqqt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(0, 0, 0, 0.490196)
+position = Vector2(960, 540)
+scale = Vector2(1.5, 0.75)
+texture = ExtResource("1_usoax")
+
+[node name="Logo" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 540)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_h65g3")
+
+[node name="SplashScreen" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u5002")
+}
+
+[node name="KillPlane" parent="." instance=ExtResource("6_wi400")]
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="JumpPad" parent="Terrain" instance=ExtResource("4_x4moe")]
+transform = Transform3D(1.73205, 1, 0, -1, 1.73205, 0, 0, 0, 2, 29, -11, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0, -1, 0)
+material_override = SubResource("StandardMaterial3D_4yeuh")
+use_collision = true
+size = Vector3(22, 1, 22)
+material = SubResource("StandardMaterial3D_lpgex")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 20.1478, -6.65649, 0)
+use_collision = true
+size = Vector3(22.4908, 1, 22.0313)
+material = SubResource("StandardMaterial3D_jmyd1")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -20)
+material_override = ExtResource("7_njdky")
+use_collision = true
+size = Vector3(1, 10, 15)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -20)
+material_override = ExtResource("7_njdky")
+use_collision = true
+size = Vector3(1, 10, 15)

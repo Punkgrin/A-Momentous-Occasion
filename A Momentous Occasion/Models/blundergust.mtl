@@ -1,0 +1,22 @@
+# Blender 3.6.5 MTL File: 'blundergust.blend'
+# www.blender.org
+
+newmtl Material
+Ns 611.239624
+Ka 0.259091 0.259091 0.259091
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd D:/GODOT/A Momentous Occasion/blundergust.png
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.044791 0.044791 0.044791
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2

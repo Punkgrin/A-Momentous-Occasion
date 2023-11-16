@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://mcyr3mswaem6"
+path="res://.godot/imported/blundergust.obj-a7c7f92c52e897b5811020deead8bda4.mesh"
+
+[deps]
+
+files=["res://.godot/imported/blundergust.obj-a7c7f92c52e897b5811020deead8bda4.mesh"]
+
+source_file="res://Models/blundergust.obj"
+dest_files=["res://.godot/imported/blundergust.obj-a7c7f92c52e897b5811020deead8bda4.mesh", "res://.godot/imported/blundergust.obj-a7c7f92c52e897b5811020deead8bda4.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
