@@ -9,14 +9,14 @@ const jump = 6
 const sensitivity = 0.004
 const blundergust_power = 300.0
 
-#bob variables
-const BOB_FREQ = 1.5
-const BOB_AMP = 0.08
+# Headbob variables that I "borrowed"
+const bob_frequency = 1.5
+const bob_amp = 0.08
 var t_bob = 0.0
 
-#fov variables
-const BASE_FOV = 90
-const FOV_CHANGE = 1.1
+# Also "borrowed" (shoutout to LegionGames for the amazing first person controller tutorial)
+const base_fov = 90
+const fov_change = 1.1
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 9.8
@@ -99,11 +99,11 @@ func _physics_process(delta):
 	camera.transform.origin = _headbob(t_bob)
 	# FOV
 	var velocity_clamped = clamp(linear_velocity.length(), 0.5, sprint * 2)
-	var target_fov = BASE_FOV + FOV_CHANGE * velocity_clamped
+	var target_fov = base_fov + fov_change * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
-	pos.y = sin(time * BOB_FREQ) * BOB_AMP
-	pos.x = cos(time * BOB_FREQ / 2) * BOB_AMP
+	pos.y = sin(time * bob_frequency) * bob_amp
+	pos.x = cos(time * bob_frequency / 2) * bob_amp
 	return pos
