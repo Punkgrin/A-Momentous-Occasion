@@ -22,19 +22,28 @@ offset_bottom = 40.0
 
 [node name="XVelocity" type="Label" parent="Debug"]
 layout_mode = 2
-text = "0"
+text = "X Velocity:"
 
 [node name="ZVelocity" type="Label" parent="Debug"]
 layout_mode = 2
-text = "0"
+text = "Z Velocity:"
 
 [node name="Friction" type="Label" parent="Debug"]
 layout_mode = 2
-text = "0"
+text = "Friction:"
 
 [node name="OnTheFloor" type="Label" parent="Debug"]
 layout_mode = 2
+text = "On The Floor:"
 
 [node name="Direction" type="Label" parent="Debug"]
 layout_mode = 2
 text = "Direction:"
+
+[node name="LeftWall" type="Label" parent="Debug"]
+layout_mode = 2
+text = "Left Wall:"
+
+[node name="RightWall" type="Label" parent="Debug"]
+layout_mode = 2
+text = "Right Wall:"
