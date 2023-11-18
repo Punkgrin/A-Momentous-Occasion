@@ -3,6 +3,7 @@
 [node name="GameplayUI" type="CanvasLayer"]
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(1, 1, 0.996078, 1)
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -53,3 +54,6 @@ text = "Left Wall:"
 [node name="RightWall" type="Label" parent="Debug"]
 layout_mode = 2
 text = "Right Wall:"
+
+[node name="WallNormal" type="Label" parent="Debug"]
+layout_mode = 2

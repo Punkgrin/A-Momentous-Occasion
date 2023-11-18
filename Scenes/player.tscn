@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=11 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
@@ -6,15 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://n1udymhkh557" path="res://Scenes/jump_effect.tscn" id="3_s1n6q"]
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="4_o5s3b"]
 [ext_resource type="PackedScene" uid="uid://btje00jyp5xy6" path="res://Scenes/gameplay_ui.tscn" id="4_qtga1"]
-[ext_resource type="Texture2D" uid="uid://crbwgucru4i8t" path="res://Models/blundergust.png" id="6_7246x"]
+[ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Shaders/blundergust.tres" id="6_bw04t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dx43"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bc1if"]
-diffuse_mode = 3
-albedo_texture = ExtResource("6_7246x")
-metallic = 0.47
-roughness = 0.0
 
 [sub_resource type="Animation" id="Animation_ey18e"]
 resource_name = "fire"
@@ -43,23 +37,13 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("1_gfmja")
+blundergust = ExtResource("6_bw04t")
 physics = ExtResource("1_ojf0a")
 steam_scene = ExtResource("3_gfitd")
 jump_effect_scene = ExtResource("3_s1n6q")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_8dx43")
-
-[node name="FloorCheck" type="RayCast3D" parent="CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
-target_position = Vector3(0, -0.2, 0)
-collide_with_areas = true
-
-[node name="LeftWallCheck" type="RayCast3D" parent="CollisionShape3D"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.4, 0, 0)
-
-[node name="RightWallCheck" type="RayCast3D" parent="CollisionShape3D"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.4, 0, 0)
 
 [node name="PitchPivot" type="Marker3D" parent="."]
 
@@ -71,13 +55,24 @@ fov = 120.0
 transform = Transform3D(-0.1, 0, 8.74228e-09, 0, 0.1, 0, -8.74228e-09, 0, -0.1, 0.5, -0.25, -1)
 mesh = ExtResource("4_o5s3b")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_bc1if")
+surface_material_override/0 = ExtResource("6_bw04t")
+
+[node name="OverheatPoint" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust"]
+transform = Transform3D(-4.37113e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, -0.5, 0, 4)
 
 [node name="FirePoint" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 2)
 
 [node name="FireVector" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust/FirePoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="LeftWallCheck" type="RayCast3D" parent="PitchPivot"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0, 0)
+target_position = Vector3(0, -0.3, 0)
+
+[node name="RightWallCheck" type="RayCast3D" parent="PitchPivot"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.5, 0, 0)
+target_position = Vector3(0, -0.3, 0)
 
 [node name="GameplayUI" parent="." instance=ExtResource("4_qtga1")]
 

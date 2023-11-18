@@ -9,6 +9,6 @@ func _process(delta):
 	$Player/GameplayUI/Debug/Direction.text = "Direction: " + str($Player.direction)
 	$Player/GameplayUI/Debug/Speed.text = "Speed: " + str($Player.velocity.length())
 	$Player/GameplayUI/Debug/RelativeSpeed.text = "Relative Speed: " + str($Player.relative_speed)
-	$Player/GameplayUI/Debug/LeftWall.text = "Left Wall: " + str($Player/CollisionShape3D/LeftWallCheck.is_colliding())
-	$Player/GameplayUI/Debug/RightWall.text = "Right Wall: " + str($Player/CollisionShape3D/RightWallCheck.is_colliding())
-	
+	$Player/GameplayUI/Debug/LeftWall.text = "Left Wall: " + str($Player/PitchPivot/LeftWallCheck.is_colliding())
+	$Player/GameplayUI/Debug/RightWall.text = "Right Wall: " + str($Player/PitchPivot/RightWallCheck.is_colliding())
+	$Player/GameplayUI/Debug/WallNormal.text = "Wall Normal: " + str($Player.wall_normal)
