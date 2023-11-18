@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=12 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
@@ -15,10 +15,6 @@ diffuse_mode = 3
 albedo_texture = ExtResource("6_7246x")
 metallic = 0.47
 roughness = 0.0
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8csy0"]
-radius = 0.1
-height = 1.5
 
 [sub_resource type="Animation" id="Animation_ey18e"]
 resource_name = "fire"
@@ -61,6 +57,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
 target_position = Vector3(0, -0.2, 0)
 collide_with_areas = true
 
+[node name="LeftWallCheck" type="RayCast3D" parent="CollisionShape3D"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.4, 0, 0)
+
+[node name="RightWallCheck" type="RayCast3D" parent="CollisionShape3D"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.4, 0, 0)
+
 [node name="PitchPivot" type="Marker3D" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="PitchPivot"]
@@ -78,14 +80,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 2)
 
 [node name="FireVector" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust/FirePoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
-[node name="LeftWallCheck" type="ShapeCast3D" parent="PitchPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 0)
-shape = SubResource("CapsuleShape3D_8csy0")
-
-[node name="RightWallCheck" type="ShapeCast3D" parent="PitchPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
-shape = SubResource("CapsuleShape3D_8csy0")
 
 [node name="GameplayUI" parent="." instance=ExtResource("4_qtga1")]
 

@@ -28,6 +28,16 @@ text = "X Velocity:"
 layout_mode = 2
 text = "Z Velocity:"
 
+[node name="Speed" type="Label" parent="Debug"]
+layout_mode = 2
+
+[node name="RelativeSpeed" type="Label" parent="Debug"]
+layout_mode = 2
+
+[node name="Direction" type="Label" parent="Debug"]
+layout_mode = 2
+text = "Direction:"
+
 [node name="Friction" type="Label" parent="Debug"]
 layout_mode = 2
 text = "Friction:"
@@ -35,10 +45,6 @@ text = "Friction:"
 [node name="OnTheFloor" type="Label" parent="Debug"]
 layout_mode = 2
 text = "On The Floor:"
-
-[node name="Direction" type="Label" parent="Debug"]
-layout_mode = 2
-text = "Direction:"
 
 [node name="LeftWall" type="Label" parent="Debug"]
 layout_mode = 2
