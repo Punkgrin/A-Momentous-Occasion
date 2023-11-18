@@ -38,12 +38,10 @@ _data = {
 "fire": SubResource("Animation_ey18e")
 }
 
-[node name="Player" type="RigidBody3D"]
+[node name="Player" type="CharacterBody3D"]
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
-physics_material_override = ExtResource("1_ojf0a")
-linear_damp_mode = 1
 script = ExtResource("1_gfmja")
 physics = ExtResource("1_ojf0a")
 steam_scene = ExtResource("3_gfitd")

@@ -1,4 +1,4 @@
-extends RigidBody3D
+extends CharacterBody3D
 
 const player = true
 const max_speed = 10
@@ -21,7 +21,6 @@ const fov_change = 1.1
 var raw_input_dir
 var input_dir
 var direction
-var on_the_floor
 var on_right_wall
 var on_left_wall
 var speed
@@ -48,30 +47,29 @@ func _unhandled_input(event):
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-70), deg_to_rad(70))
 
 func _physics_process(delta):
-	# Knockoff is_on_floor() but for rigidbodies
-	on_the_floor = $CollisionShape3D/FloorCheck.is_colliding()
+	# Gravity && stuff
+	if !is_on_floor():
+		velocity.y -= gravity * delta
+	# Variables used for wallrunning later because I don't want to organize right now
 	on_left_wall = $CollisionShape3D/LeftWallCheck.is_colliding()
 	on_right_wall = $CollisionShape3D/RightWallCheck.is_colliding()
 	# Gets the input direction and handles the movement/deceleration.
 	input_dir = Input.get_vector("Left", "Right", "Forward", "Back")
 	raw_input_dir = Vector3(input_dir.x, 0, input_dir.y)
 	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	relative_speed = head.transform.basis * linear_velocity
-	# Restores double jump
-	if on_the_floor:
-		double_jump = 2
+	relative_speed = head.transform.basis * velocity
 	# Changes the WallCheck ShapeCasts to rotate based upon camera rotation because around these parts we like hacky solutions
 	$CollisionShape3D/LeftWallCheck.rotation.y = $PitchPivot.rotation.y
 	$CollisionShape3D/RightWallCheck.rotation.y = $PitchPivot.rotation.y
 	# Jumping and jump effects
-	if Input.is_action_just_pressed("Jump") && on_the_floor || Input.is_action_just_pressed("Jump") && double_jump > 0:
+	if Input.is_action_just_pressed("Jump") && is_on_floor() || Input.is_action_just_pressed("Jump") && double_jump > 0:
 		var jump_effect = jump_effect_scene.instantiate()
 		jump_effect.position.y -= 0.5
 		jump_effect.emitting = true
 		add_child(jump_effect)
-		linear_velocity.y =	jump
+		velocity.y = jump
 		double_jump -= 1
-		if !on_the_floor:
+		if !is_on_floor():
 			double_jump -= 2
 	# Sprinting
 	if Input.is_action_pressed("Sprint"):
@@ -93,36 +91,39 @@ func _physics_process(delta):
 		get_parent().add_child(steam)
 		$BlundergustCooldown.start()
 		$BlundergustAnimations.current_animation = "fire"
-		linear_velocity -= firing_vector * blundergust_power
+		velocity -= firing_vector * blundergust_power
 	$GameplayUI/ProgressBar.set_value($BlundergustCooldown.time_left)
 	# WALLRUNNING!!!
-	if ((on_left_wall || on_right_wall) && input_dir.x > 0 && !on_the_floor):
+	if ((on_left_wall || on_right_wall) && input_dir.x > 0 && !is_on_floor()):
 		pass # Remember to actually put the code here later, nerd!
 	# Various movements
-	if on_the_floor:
+	if is_on_floor():
 		if direction && !Input.is_action_pressed("Crouch"):
-			linear_velocity.x = direction.x * speed
-			linear_velocity.z = direction.z * speed
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
 			physics.friction = 1
 		elif Input.is_action_pressed("Crouch"):
 			physics.friction = 0.1
 		else:
-			linear_velocity.x = lerp(linear_velocity.x, direction.x * speed, delta * 50.0)
-			linear_velocity.z = lerp(linear_velocity.z, direction.z * speed, delta * 50.0)
+			velocity.x = lerp(velocity.x, direction.x * speed, delta * 50.0)
+			velocity.z = lerp(velocity.z, direction.z * speed, delta * 50.0)
 			physics.friction = 1
+		double_jump = 2
 	else:
 	# Source-style airstrafing LET'S GOOOOOOOOOO
-			if (-relative_speed.x < max_speed && raw_input_dir.x < 0): linear_velocity.x += direction.x * air_accel;
-			if (relative_speed.x < max_speed && raw_input_dir.x > 0): linear_velocity.x += direction.x * air_accel;
-			if (-relative_speed.z < max_speed && raw_input_dir.z < 0): linear_velocity.z += direction.z * air_accel;
-			if (relative_speed.z < max_speed && raw_input_dir.z > 0): linear_velocity.z += direction.z * air_accel;
+			if (-relative_speed.x < max_speed && raw_input_dir.x < 0): velocity.x += direction.x * air_accel;
+			if (relative_speed.x < max_speed && raw_input_dir.x > 0): velocity.x += direction.x * air_accel;
+			if (-relative_speed.z < max_speed && raw_input_dir.z < 0): velocity.z += direction.z * air_accel;
+			if (relative_speed.z < max_speed && raw_input_dir.z > 0): velocity.z += direction.z * air_accel;
 	# Headbob
-	t_bob += delta * linear_velocity.length() * float(on_the_floor) * float(!Input.is_action_pressed("Crouch"))
+	t_bob += delta * velocity.length() * float(is_on_floor()) * float(!Input.is_action_pressed("Crouch"))
 	camera.transform.origin = _headbob(t_bob)
 	# FOV change
-	var velocity_clamped = clamp(linear_velocity.length(), 0.5, sprint * 2)
+	var velocity_clamped = clamp(velocity.length(), 0.5, sprint * 2)
 	var target_fov = base_fov + fov_change * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+	
+	move_and_slide()
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
