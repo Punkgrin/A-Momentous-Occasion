@@ -3,15 +3,15 @@ extends RigidBody3D
 const player = true
 const max_speed = 10
 const air_accel = 0.3
-const walk = 8.0
-const sprint = 12.0
+const walk = 5.0
+const sprint = 8.0
 const jump = 6
 const sensitivity = 0.004
 const blundergust_power = 300.0
 
 # Headbob variables that I "borrowed"
 const bob_frequency = 1.5
-const bob_amp = 0.08
+const bob_amplitude = 0.1
 var t_bob = 0.0
 
 # Also "borrowed" (shoutout to LegionGames for the amazing first person controller tutorial)
@@ -50,6 +50,8 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	# Knockoff is_on_floor() but for rigidbodies
 	on_the_floor = $CollisionShape3D/FloorCheck.is_colliding()
+	on_left_wall = $CollisionShape3D/LeftWallCheck.is_colliding()
+	on_right_wall = $CollisionShape3D/RightWallCheck.is_colliding()
 	# Gets the input direction and handles the movement/deceleration.
 	input_dir = Input.get_vector("Left", "Right", "Forward", "Back")
 	raw_input_dir = Vector3(input_dir.x, 0, input_dir.y)
@@ -93,24 +95,29 @@ func _physics_process(delta):
 		$BlundergustAnimations.current_animation = "fire"
 		linear_velocity -= firing_vector * blundergust_power
 	$GameplayUI/ProgressBar.set_value($BlundergustCooldown.time_left)
+	# WALLRUNNING!!!
+	if ((on_left_wall || on_right_wall) && input_dir.x > 0 && !on_the_floor):
+		pass # Remember to actually put the code here later, nerd!
+	# Various movements
 	if on_the_floor:
-		if direction:
+		if direction && !Input.is_action_pressed("Crouch"):
 			linear_velocity.x = direction.x * speed
 			linear_velocity.z = direction.z * speed
 			physics.friction = 1
-		if Input.is_action_pressed("Crouch"):
-			physics.friction = 0
+		elif Input.is_action_pressed("Crouch"):
+			physics.friction = 0.1
 		else:
 			linear_velocity.x = lerp(linear_velocity.x, direction.x * speed, delta * 50.0)
 			linear_velocity.z = lerp(linear_velocity.z, direction.z * speed, delta * 50.0)
 			physics.friction = 1
 	else:
+	# Source-style airstrafing LET'S GOOOOOOOOOO
 			if (-relative_speed.x < max_speed && raw_input_dir.x < 0): linear_velocity.x += direction.x * air_accel;
 			if (relative_speed.x < max_speed && raw_input_dir.x > 0): linear_velocity.x += direction.x * air_accel;
 			if (-relative_speed.z < max_speed && raw_input_dir.z < 0): linear_velocity.z += direction.z * air_accel;
 			if (relative_speed.z < max_speed && raw_input_dir.z > 0): linear_velocity.z += direction.z * air_accel;
 	# Headbob
-	t_bob += delta * linear_velocity.length() * float(on_the_floor)
+	t_bob += delta * linear_velocity.length() * float(on_the_floor) * float(!Input.is_action_pressed("Crouch"))
 	camera.transform.origin = _headbob(t_bob)
 	# FOV change
 	var velocity_clamped = clamp(linear_velocity.length(), 0.5, sprint * 2)
@@ -119,6 +126,6 @@ func _physics_process(delta):
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
-	pos.y = sin(time * bob_frequency) * bob_amp
-	pos.x = cos(time * bob_frequency / 2) * bob_amp
+	pos.y = sin(time * bob_frequency) * bob_amplitude
+	pos.x = cos(time * bob_frequency / 2) * bob_amplitude
 	return pos
