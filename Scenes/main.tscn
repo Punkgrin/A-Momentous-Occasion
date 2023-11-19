@@ -1,11 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjl25cyjixm65"]
+[gd_scene load_steps=3 format=3 uid="uid://cjl25cyjixm65"]
 
-[ext_resource type="PackedScene" uid="uid://bo5i0vmve366w" path="res://Scenes/menu.tscn" id="1_bnapt"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_q7hi6"]
 [ext_resource type="PackedScene" uid="uid://b4hgis3fu0l50" path="res://Scenes/testing.tscn" id="2_baud1"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_q7hi6")
 test_scene = ExtResource("2_baud1")
-
-[node name="menu" parent="." instance=ExtResource("1_bnapt")]
