@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b4hgis3fu0l50"]
+[gd_scene load_steps=17 format=3 uid="uid://b4hgis3fu0l50"]
 
 [ext_resource type="Script" path="res://Scripts/testing.gd" id="1_3ogu4"]
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_4uqqt"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
 [ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="6_wi400"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Shaders/steam_shade.tres" id="7_njdky"]
+[ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="8_tl07g"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3g3gn"]
 sky_top_color = Color(0, 0.478431, 0.713726, 1)
@@ -104,6 +105,9 @@ libraries = {
 }
 
 [node name="KillPlane" parent="." instance=ExtResource("6_wi400")]
+
+[node name="SpeedGates" parent="." instance=ExtResource("8_tl07g")]
+transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, 200, 0, 0)
 
 [node name="Terrain" type="Node3D" parent="."]
 

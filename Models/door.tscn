@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0507y0s27qyy"]
+
+[ext_resource type="PackedScene" uid="uid://ytjpwjeceyyw" path="res://Models/door.fbx" id="1_ctqq0"]
+[ext_resource type="Texture2D" uid="uid://ciqvrmmgpws2v" path="res://Models/door-3f7e4350eb6e6776052b92a04fa315d4_door_colour.png" id="2_pyfo0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5sq23"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("2_pyfo0")
+metallic = 0.5
+roughness = 0.25
+
+[node name="door" instance=ExtResource("1_ctqq0")]
+
+[node name="Cube" parent="RootNode" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_5sq23")

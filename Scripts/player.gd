@@ -104,7 +104,7 @@ func _physics_process(delta):
 
 	# WALLRUNNING!!! (sort of)
 	if ((is_on_wall_only()) && input_dir.y < 0 && !is_on_floor()):
-		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump) + (Vector3.UP * jump / 2)
+		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 2)
 		velocity.y -= gravity * delta / 3
 		velocity -= wall_normal * wall_magnetism * delta
 		double_jump = 2
