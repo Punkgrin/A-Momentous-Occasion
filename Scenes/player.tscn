@@ -17,7 +17,7 @@ step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PitchPivot/Camera3D/Blundergust:rotation")
+tracks/0/path = NodePath("PitchPivot/RollPivot/Camera3D/Blundergust:rotation")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -47,23 +47,25 @@ shape = SubResource("CapsuleShape3D_8dx43")
 
 [node name="PitchPivot" type="Marker3D" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="PitchPivot"]
+[node name="RollPivot" type="Marker3D" parent="PitchPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="PitchPivot/RollPivot"]
 fov = 120.0
 
-[node name="Blundergust" type="MeshInstance3D" parent="PitchPivot/Camera3D"]
+[node name="Blundergust" type="MeshInstance3D" parent="PitchPivot/RollPivot/Camera3D"]
 transform = Transform3D(-0.1, 0, 8.74228e-09, 0, 0.1, 0, -8.74228e-09, 0, -0.1, 0.5, -0.25, -1)
 mesh = ExtResource("4_o5s3b")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("6_bw04t")
 
-[node name="OverheatPoint" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust"]
+[node name="OverheatPoint" type="Marker3D" parent="PitchPivot/RollPivot/Camera3D/Blundergust"]
 transform = Transform3D(-4.37113e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, -0.5, 0, 4)
 
-[node name="FirePoint" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust"]
+[node name="FirePoint" type="Marker3D" parent="PitchPivot/RollPivot/Camera3D/Blundergust"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 2)
 
-[node name="FireVector" type="Marker3D" parent="PitchPivot/Camera3D/Blundergust/FirePoint"]
+[node name="FireVector" type="Marker3D" parent="PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="LeftWallCheck" type="RayCast3D" parent="PitchPivot"]

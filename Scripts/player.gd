@@ -32,7 +32,7 @@ var gravity = 9.8
 var double_jump = 0
 
 @onready var head = $PitchPivot
-@onready var camera = $PitchPivot/Camera3D
+@onready var camera = $PitchPivot/RollPivot/Camera3D
 
 @export var blundergust : StandardMaterial3D
 @export var physics : PhysicsMaterial
@@ -40,8 +40,7 @@ var double_jump = 0
 @export var jump_effect_scene : PackedScene
 
 # Captures the mouse
-func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+func _ready(): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED);
 # Camera Movement
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -83,9 +82,9 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("Fire") && $BlundergustCooldown.is_stopped():
 		var color_tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE)
 		var steam = steam_scene.instantiate()
-		var firing_vector = $PitchPivot/Camera3D/Blundergust/FirePoint/FireVector.global_position - $PitchPivot/Camera3D/Blundergust/FirePoint.global_position
-		steam.position = $PitchPivot/Camera3D/Blundergust/FirePoint.global_position
-		steam.rotation = $PitchPivot/Camera3D.global_rotation
+		var firing_vector = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint/FireVector.global_position - $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
+		steam.position = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
+		steam.rotation = $PitchPivot/RollPivot/Camera3D.global_rotation
 		steam.emitting = true
 		get_parent().add_child(steam)
 		$BlundergustCooldown.start()
@@ -103,7 +102,10 @@ func _physics_process(delta):
 	if (on_right_wall): wall_normal = $PitchPivot/RightWallCheck.get_collision_normal();
 
 	# WALLRUNNING!!! (sort of)
+	var angle_tween = get_tree().create_tween()
 	if ((is_on_wall_only()) && input_dir.y < 0 && !is_on_floor()):
+		if on_left_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, -20), 1);
+		if on_right_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, 20), 1);
 		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 2)
 		velocity.y -= gravity * delta / 3
 		velocity -= wall_normal * wall_magnetism * delta
@@ -111,9 +113,10 @@ func _physics_process(delta):
 		direction.x = 0
 	# Quick gravity cameo
 	elif !is_on_floor():
+		if ($PitchPivot/RollPivot.rotation_degrees.z != 0): angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3.ZERO, 0.5);
 		velocity.y -= gravity * delta
 	else:
-		pass
+		if ($PitchPivot/RollPivot.rotation_degrees.z != 0): angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3.ZERO, 0.5);
 
 	# Various movements
 	if is_on_floor():
@@ -142,6 +145,8 @@ func _physics_process(delta):
 	var velocity_clamped = clamp(velocity.length(), 0.5, sprint * 2)
 	var target_fov = base_fov + fov_change * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+	
+	if Input.is_action_just_pressed("Quit"): get_tree().change_scene_to_file("res://Scenes/menu.tscn")
 
 	move_and_slide()
 
