@@ -1,8 +1,101 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjl25cyjixm65"]
+[gd_scene load_steps=13 format=3 uid="uid://cjl25cyjixm65"]
 
-[ext_resource type="Script" path="res://Scripts/main.gd" id="1_q7hi6"]
-[ext_resource type="PackedScene" uid="uid://b4hgis3fu0l50" path="res://Scenes/testing.tscn" id="2_baud1"]
+[ext_resource type="Script" path="res://Scripts/testing.gd" id="1_fu46a"]
+[ext_resource type="PackedScene" uid="uid://dxgufrm8nhm7d" path="res://Models/mountain.glb" id="2_8ke5n"]
+[ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="3_rb8gg"]
+[ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="4_ofule"]
+[ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="5_4uvjj"]
+[ext_resource type="Texture2D" uid="uid://dr256dgheo2j" path="res://pumpkinspice.png" id="6_hd1hi"]
+
+[sub_resource type="Animation" id="Animation_rt22i"]
+resource_name = "splash_screen"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.490196), Color(0, 0, 0, 0.490196), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Logo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u5002"]
+_data = {
+"splash_screen": SubResource("Animation_rt22i")
+}
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2o4n4"]
+sky_top_color = Color(0, 0.478431, 0.713726, 1)
+sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
+sky_curve = 0.106066
+sky_energy_multiplier = 1.5
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ntr8q"]
+sky_material = SubResource("ProceduralSkyMaterial_2o4n4")
+
+[sub_resource type="Environment" id="Environment_7boq2"]
+background_mode = 2
+sky = SubResource("Sky_ntr8q")
+fog_sky_affect = 0.195
+volumetric_fog_density = 0.015
+adjustment_brightness = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_u2ckx"]
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 10.0
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_q7hi6")
-test_scene = ExtResource("2_baud1")
+script = ExtResource("1_fu46a")
+
+[node name="mountain" parent="." instance=ExtResource("2_8ke5n")]
+transform = Transform3D(750, 0, 0, 0, 750, 0, 0, 0, 750, 0, 0, -2500)
+
+[node name="Player" parent="." instance=ExtResource("3_rb8gg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="KillPlane" parent="." instance=ExtResource("4_ofule")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(15.2433, 1, 801.792)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(0, 0, 0, 0.490196)
+position = Vector2(960, 540)
+scale = Vector2(1.5, 0.75)
+texture = ExtResource("5_4uvjj")
+
+[node name="Logo" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(960, 540)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("6_hd1hi")
+
+[node name="SplashScreen" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_u5002")
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7boq2")
+camera_attributes = SubResource("CameraAttributesPractical_u2ckx")

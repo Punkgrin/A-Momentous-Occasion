@@ -17,12 +17,12 @@ sky_energy_multiplier = 1.5
 ground_bottom_color = Color(0, 0, 0, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_ntr8q"]
+[sub_resource type="Sky" id="Sky_drrba"]
 sky_material = SubResource("ProceduralSkyMaterial_3g3gn")
 
 [sub_resource type="Environment" id="Environment_b63ry"]
 background_mode = 2
-sky = SubResource("Sky_ntr8q")
+sky = SubResource("Sky_drrba")
 fog_sky_affect = 0.195
 volumetric_fog_density = 0.015
 adjustment_brightness = 1.08
