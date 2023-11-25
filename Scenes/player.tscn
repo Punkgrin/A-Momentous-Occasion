@@ -89,8 +89,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="Wind" type="GPUParticles3D" parent="PitchPivot/RollPivot/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
-visible = false
-amount = 7
+amount = 10
 local_coords = true
 trail_enabled = true
 trail_lifetime = 1.0
@@ -118,7 +117,7 @@ libraries = {
 
 [node name="Jump" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("8_lkoa3")
-volume_db = -25.0
+volume_db = -30.0
 max_db = 1.0
 
 [node name="Fire" type="AudioStreamPlayer3D" parent="."]
@@ -127,7 +126,7 @@ max_db = 1.0
 
 [node name="Step" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("10_6k8cl")
-volume_db = 9.905
+volume_db = 20.0
 
 [node name="Slide" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("11_r66rs")

@@ -69,12 +69,15 @@ func _physics_process(delta):
 
 	# Wind (wow)
 	if velocity:
-		$Wind.volume_db = -50 + 3 * sqrt(total_speed)
-		$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = sqrt(total_speed)
-		wind.scale_min = sqrt(total_speed) / 30
-		wind.scale_max = sqrt(total_speed) / 30
-		wind.direction.x = direction.z
-		wind.direction.z = direction.x
+		$Wind.volume_db = -70 + 5 * sqrt(total_speed)
+		$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = 1 + sqrt(total_speed) / 10
+		$PitchPivot/RollPivot/Camera3D/Wind.amount = 10 + int(sqrt(total_speed) * 1.5)
+		if (total_speed >= 15):
+			wind.scale_min = sqrt(total_speed) / 500 - 0.001
+			wind.scale_max = sqrt(total_speed) / 500 - 0.001
+		else:
+			wind.scale_min = 0
+			wind.scale_max = 0
 
 	# Jumping and jump effects
 	if Input.is_action_just_pressed("Jump") && is_on_floor() || Input.is_action_just_pressed("Jump") && double_jump > 0:
