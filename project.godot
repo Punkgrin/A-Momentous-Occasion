@@ -17,6 +17,10 @@ boot_splash/image="res://pumpkinspice.png"
 config/icon="res://pumpkinspice.png"
 run/icon="res://icon.svg"
 
+[autoload]
+
+Player="*res://Scripts/player_variables.gd"
+
 [display]
 
 window/size/viewport_width=1920

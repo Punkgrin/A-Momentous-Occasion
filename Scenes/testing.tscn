@@ -1,9 +1,9 @@
 [gd_scene load_steps=17 format=3 uid="uid://b4hgis3fu0l50"]
 
-[ext_resource type="Script" path="res://Scripts/testing.gd" id="1_3ogu4"]
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_4uqqt"]
 [ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_usoax"]
 [ext_resource type="Texture2D" uid="uid://dr256dgheo2j" path="res://pumpkinspice.png" id="3_h65g3"]
+[ext_resource type="Script" path="res://Scenes/splash_screen.gd" id="4_v4ctr"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
 [ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="6_wi400"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Shaders/steam_shade.tres" id="7_njdky"]
@@ -74,14 +74,13 @@ roughness = 0.0
 albedo_texture = ExtResource("1_usoax")
 
 [node name="testing" type="Node3D"]
-script = ExtResource("1_3ogu4")
+
+[node name="Player" parent="." instance=ExtResource("1_4uqqt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_b63ry")
 camera_attributes = SubResource("CameraAttributesPractical_i808c")
-
-[node name="Player" parent="." instance=ExtResource("1_4uqqt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
@@ -89,12 +88,13 @@ transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
-modulate = Color(0, 0, 0, 0.490196)
+modulate = Color(0, 0, 0, 0)
 position = Vector2(960, 540)
 scale = Vector2(1.5, 0.75)
 texture = ExtResource("1_usoax")
 
 [node name="Logo" type="Sprite2D" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0)
 position = Vector2(960, 540)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_h65g3")
@@ -103,6 +103,7 @@ texture = ExtResource("3_h65g3")
 libraries = {
 "": SubResource("AnimationLibrary_u5002")
 }
+script = ExtResource("4_v4ctr")
 
 [node name="KillPlane" parent="." instance=ExtResource("6_wi400")]
 

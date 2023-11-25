@@ -19,14 +19,14 @@ var t_bob = 0.0
 const base_fov = 90
 const fov_change = 1.1
 
-var raw_input_dir
 var input_dir
 var direction
 var wall_normal
 var on_right_wall
 var on_left_wall
-var speed
 var relative_speed
+var total_speed
+var speed
 
 var gravity = 9.8
 var double_jump = 0
@@ -51,9 +51,20 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	# Gets the input direction and handles the movement/deceleration.
 	input_dir = Input.get_vector("Left", "Right", "Forward", "Back")
-	raw_input_dir = Vector3(input_dir.x, 0, input_dir.y)
 	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	relative_speed = head.transform.basis * velocity
+	relative_speed = head.transform.basis * Vector3(velocity.x, 0, velocity.z)
+	total_speed = Vector3(velocity.x, 0, velocity.z).length()
+	
+	# Updating all the global variables because I am a lazy boi (and idk how to do global variables in godot)
+	Player.velocity = velocity
+	Player.on_the_floor = is_on_floor()
+	Player.input_dir = input_dir
+	Player.direction = direction
+	Player.wall_normal = wall_normal
+	Player.on_right_wall = on_right_wall
+	Player.on_left_wall = on_left_wall
+	Player.relative_speed = relative_speed
+	Player.total_speed = total_speed
 	
 	# Jumping and jump effects
 	if Input.is_action_just_pressed("Jump") && is_on_floor() || Input.is_action_just_pressed("Jump") && double_jump > 0:
@@ -133,10 +144,10 @@ func _physics_process(delta):
 		double_jump = 2
 	else:
 	# Source-style airstrafing LET'S GOOOOOOOOOO
-		if (-relative_speed.x < max_speed && raw_input_dir.x < 0): velocity.x += direction.x * air_accel * delta;
-		if (relative_speed.x < max_speed && raw_input_dir.x > 0): velocity.x += direction.x * air_accel * delta;
-		if (-relative_speed.z < max_speed && raw_input_dir.z < 0) : velocity.z += direction.z * air_accel * delta;
-		if (relative_speed.z < max_speed && raw_input_dir.z > 0): velocity.z += direction.z * air_accel * delta;
+		if (-relative_speed.x < max_speed && input_dir.x < 0): velocity.x += direction.x * air_accel * delta;
+		if (relative_speed.x < max_speed && input_dir.x > 0): velocity.x += direction.x * air_accel * delta;
+		if (-relative_speed.z < max_speed && input_dir.y < 0) : velocity.z += direction.z * air_accel * delta;
+		if (relative_speed.z < max_speed && input_dir.y > 0): velocity.z += direction.z * air_accel * delta;
 
 	# Headbob
 	t_bob += delta * velocity.length() * float(is_on_floor()) * float(!Input.is_action_pressed("Crouch"))

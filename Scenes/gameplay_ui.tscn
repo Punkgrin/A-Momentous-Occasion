@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://btje00jyp5xy6"]
+[gd_scene load_steps=2 format=3 uid="uid://btje00jyp5xy6"]
+
+[ext_resource type="Script" path="res://Scripts/debug.gd" id="1_eypsk"]
 
 [node name="GameplayUI" type="CanvasLayer"]
 
@@ -20,6 +22,7 @@ show_percentage = false
 [node name="Debug" type="GridContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_eypsk")
 
 [node name="XVelocity" type="Label" parent="Debug"]
 layout_mode = 2
