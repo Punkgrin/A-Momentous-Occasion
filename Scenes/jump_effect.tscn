@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://n1udymhkh557"]
 
 [ext_resource type="Script" path="res://Scripts/jump_effect.gd" id="1_3wybt"]
-[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Shaders/steam_shade.tres" id="1_caf70"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="1_caf70"]
 
 [sub_resource type="Curve" id="Curve_53moi"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.227273, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

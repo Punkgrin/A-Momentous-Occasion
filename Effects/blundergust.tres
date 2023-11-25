@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://qy7hxwe1pqe5"]
+
+[ext_resource type="Texture2D" uid="uid://crbwgucru4i8t" path="res://Models/blundergust.png" id="1_yc7yu"]
+
+[resource]
+diffuse_mode = 3
+albedo_texture = ExtResource("1_yc7yu")
+metallic = 0.47
+roughness = 0.0

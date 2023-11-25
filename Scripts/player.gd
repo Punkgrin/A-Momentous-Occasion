@@ -11,7 +11,7 @@ const sensitivity = 0.004
 const blundergust_power = 300.0
 
 # Headbob variables that I "borrowed"
-const bob_frequency = 1.5
+const bob_frequency = 2
 const bob_amplitude = 0.1
 var t_bob = 0.0
 
@@ -35,6 +35,7 @@ var double_jump = 0
 @onready var camera = $PitchPivot/RollPivot/Camera3D
 
 @export var blundergust : StandardMaterial3D
+@export var wind : ParticleProcessMaterial
 @export var physics : PhysicsMaterial
 @export var steam_scene : PackedScene
 @export var jump_effect_scene : PackedScene
@@ -65,13 +66,23 @@ func _physics_process(delta):
 	Player.on_left_wall = on_left_wall
 	Player.relative_speed = relative_speed
 	Player.total_speed = total_speed
-	
+
+	# Wind (wow)
+	if velocity:
+		$Wind.volume_db = -50 + 3 * sqrt(total_speed)
+		$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = sqrt(total_speed)
+		wind.scale_min = sqrt(total_speed) / 30
+		wind.scale_max = sqrt(total_speed) / 30
+		wind.direction.x = direction.z
+		wind.direction.z = direction.x
+
 	# Jumping and jump effects
 	if Input.is_action_just_pressed("Jump") && is_on_floor() || Input.is_action_just_pressed("Jump") && double_jump > 0:
 		var jump_effect = jump_effect_scene.instantiate()
 		jump_effect.position.y -= 0.5
 		jump_effect.emitting = true
 		add_child(jump_effect)
+		$Jump.play()
 		velocity.y = jump
 		double_jump -= 1
 		if !is_on_floor():
@@ -80,8 +91,10 @@ func _physics_process(delta):
 	# Sprinting
 	if Input.is_action_pressed("Sprint"):
 		speed = sprint
+		$Step.pitch_scale = 1.2
 	else:
 		speed = walk
+		$Step.pitch_scale = 0.7
 
 	# Sliding and stuff
 	if Input.is_action_pressed("Crouch"):
@@ -100,6 +113,7 @@ func _physics_process(delta):
 		get_parent().add_child(steam)
 		$BlundergustCooldown.start()
 		$BlundergustAnimations.current_animation = "fire"
+		$Fire.play()
 		velocity -= firing_vector * blundergust_power
 		blundergust.albedo_color = Color.RED
 		color_tween.tween_property(blundergust, "albedo_color", Color.WHITE, 10)
@@ -135,12 +149,18 @@ func _physics_process(delta):
 			velocity.x = direction.x * speed
 			velocity.z = direction.z * speed
 			physics.friction = 1
-		elif Input.is_action_pressed("Crouch"):
+			$Slide.stop()
+			$Step.play($Step.get_playback_position())
+		elif velocity && Input.is_action_pressed("Crouch"):
 			physics.friction = 0.5
+			$Slide.play($Slide.get_playback_position())
+			$Step.stop()
 		else:
 			velocity.x = lerp(velocity.x, direction.x * speed, delta * 50.0)
 			velocity.z = lerp(velocity.z, direction.z * speed, delta * 50.0)
 			physics.friction = 1
+			$Slide.stop()
+			$Step.stop()
 		double_jump = 2
 	else:
 	# Source-style airstrafing LET'S GOOOOOOOOOO
@@ -148,6 +168,8 @@ func _physics_process(delta):
 		if (relative_speed.x < max_speed && input_dir.x > 0): velocity.x += direction.x * air_accel * delta;
 		if (-relative_speed.z < max_speed && input_dir.y < 0) : velocity.z += direction.z * air_accel * delta;
 		if (relative_speed.z < max_speed && input_dir.y > 0): velocity.z += direction.z * air_accel * delta;
+		$Slide.stop()
+		$Step.stop()
 
 	# Headbob
 	t_bob += delta * velocity.length() * float(is_on_floor()) * float(!Input.is_action_pressed("Crouch"))

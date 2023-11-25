@@ -1,15 +1,32 @@
-[gd_scene load_steps=12 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=19 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
+[ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Effects/blundergust.tres" id="2_yvco2"]
 [ext_resource type="PackedScene" uid="uid://blm5vl76ke3r2" path="res://Scenes/steam.tscn" id="3_gfitd"]
 [ext_resource type="PackedScene" uid="uid://n1udymhkh557" path="res://Scenes/jump_effect.tscn" id="3_s1n6q"]
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="4_o5s3b"]
 [ext_resource type="PackedScene" uid="uid://btje00jyp5xy6" path="res://Scenes/gameplay_ui.tscn" id="4_qtga1"]
-[ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Shaders/blundergust.tres" id="6_bw04t"]
+[ext_resource type="Material" uid="uid://htb2h822q13r" path="res://Effects/wind.tres" id="7_snnpo"]
 [ext_resource type="AudioStream" uid="uid://bepft1xorco72" path="res://SFX/fire.wav" id="8_j1p0a"]
+[ext_resource type="AudioStream" uid="uid://bw05aexvbuoik" path="res://SFX/jump.wav" id="8_lkoa3"]
+[ext_resource type="AudioStream" uid="uid://bpsvo78mnud0u" path="res://SFX/step.wav" id="10_6k8cl"]
+[ext_resource type="AudioStream" uid="uid://5w82vr00vgq1" path="res://SFX/slide.wav" id="11_r66rs"]
+[ext_resource type="AudioStream" uid="uid://dft83q1uy7x27" path="res://SFX/wind.wav" id="12_rbna6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dx43"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_102rq"]
+diffuse_mode = 3
+specular_mode = 1
+roughness = 0.0
+use_particle_trails = true
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_jac24"]
+material = SubResource("StandardMaterial3D_102rq")
+radial_steps = 3
+sections = 4
+section_length = 1.87
 
 [sub_resource type="Animation" id="Animation_ey18e"]
 resource_name = "fire"
@@ -38,7 +55,8 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource("1_gfmja")
-blundergust = ExtResource("6_bw04t")
+blundergust = ExtResource("2_yvco2")
+wind = ExtResource("7_snnpo")
 physics = ExtResource("1_ojf0a")
 steam_scene = ExtResource("3_gfitd")
 jump_effect_scene = ExtResource("3_s1n6q")
@@ -58,7 +76,7 @@ fov = 120.0
 transform = Transform3D(-0.1, 0, -2.53518e-07, 0, 0.1, 0, 2.53518e-07, 0, -0.1, 0.5, -0.25, -1)
 mesh = ExtResource("4_o5s3b")
 skeleton = NodePath("../../../..")
-surface_material_override/0 = ExtResource("6_bw04t")
+surface_material_override/0 = ExtResource("2_yvco2")
 
 [node name="OverheatPoint" type="Marker3D" parent="PitchPivot/RollPivot/Camera3D/Blundergust"]
 transform = Transform3D(-4.37113e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113e-08, -0.5, 0, 4)
@@ -68,6 +86,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 2)
 
 [node name="FireVector" type="Marker3D" parent="PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="Wind" type="GPUParticles3D" parent="PitchPivot/RollPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+visible = false
+amount = 7
+local_coords = true
+trail_enabled = true
+trail_lifetime = 1.0
+process_material = ExtResource("7_snnpo")
+draw_pass_1 = SubResource("TubeTrailMesh_jac24")
 
 [node name="LeftWallCheck" type="RayCast3D" parent="PitchPivot"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0, 0)
@@ -88,5 +116,24 @@ libraries = {
 "": SubResource("AnimationLibrary_tjjys")
 }
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="Jump" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_lkoa3")
+volume_db = -25.0
+max_db = 1.0
+
+[node name="Fire" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("8_j1p0a")
+max_db = 1.0
+
+[node name="Step" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("10_6k8cl")
+volume_db = 9.905
+
+[node name="Slide" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("11_r66rs")
+panning_strength = 0.0
+
+[node name="Wind" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("12_rbna6")
+volume_db = -50.0
+autoplay = true

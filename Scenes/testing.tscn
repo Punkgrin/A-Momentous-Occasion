@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_usoax"]
 [ext_resource type="PackedScene" uid="uid://bslb1y7xsj8kg" path="res://Scenes/splash_screen.tscn" id="2_wgbol"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="6_0alxo"]
 [ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="6_wi400"]
-[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Shaders/steam_shade.tres" id="7_njdky"]
 [ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="8_tl07g"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3g3gn"]
@@ -65,68 +65,80 @@ transform = Transform3D(1.73205, 1, 0, -1, 1.73205, 0, 0, 0, 2, 29, -11, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, -1, 0)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(22, 1, 22)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 158, -1, 0)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(171.45, 1, 22)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(5.78125e-11, 4.37645e-08, -0.4, 0.3, -0.00174751, 0, -0.000523614, -1.00122, -1.74846e-08, 2.18557e-07, 3, -5)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(22, 1, 22)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(5.78126e-11, 4.37645e-08, -0.4, 0.3, -0.00174752, 4.65662e-11, -0.000523617, -1.00122, -1.74846e-08, -68, 3, -5)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(33.5439, 1, 233.495)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(5.78126e-11, 4.37645e-08, -0.4, 0.3, -0.00174752, 4.65662e-11, -0.000523617, -1.00122, -1.74846e-08, -68, 3, 6)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(33.5439, 1, 233.495)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(5.78125e-11, 4.37645e-08, -0.4, 0.3, -0.00174751, 0, -0.000523614, -1.00122, -1.74846e-08, -2.18557e-07, 3, 5)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(22, 1, 22)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, -0.0112658, -0.87426, -39.7644)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(22, 1, 22)
 material = SubResource("StandardMaterial3D_lpgex")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 20.1478, -6.65649, 0)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(22.4908, 1, 22.0313)
 material = SubResource("StandardMaterial3D_jmyd1")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -20)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(1, 10, 15)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -20)
-material_override = ExtResource("7_njdky")
+material_override = ExtResource("6_0alxo")
+use_collision = true
+size = Vector3(1, 10, 15)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 18.5359, 0, 23)
+material_override = ExtResource("6_0alxo")
+use_collision = true
+size = Vector3(1, 10, 15)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 25.4641, 0, 19)
+material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(1, 10, 15)
