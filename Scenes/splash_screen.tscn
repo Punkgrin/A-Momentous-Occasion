@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://bslb1y7xsj8kg"]
+
+[ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_imbe7"]
+[ext_resource type="Texture2D" uid="uid://dr256dgheo2j" path="res://pumpkinspice.png" id="2_63tks"]
+[ext_resource type="Script" path="res://Scripts/splash_screen.gd" id="3_2a7ts"]
+
+[sub_resource type="Animation" id="Animation_rt22i"]
+resource_name = "splash_screen"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SplashScreen/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0.490196), Color(0, 0, 0, 0.490196), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SplashScreen/Logo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u5002"]
+_data = {
+"splash_screen": SubResource("Animation_rt22i")
+}
+
+[node name="SplashScreen" type="CanvasLayer"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.490196)
+position = Vector2(960, 540)
+scale = Vector2(1.5, 0.75)
+texture = ExtResource("1_imbe7")
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_63tks")
+
+[node name="SplashScreen" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_u5002")
+}
+script = ExtResource("3_2a7ts")

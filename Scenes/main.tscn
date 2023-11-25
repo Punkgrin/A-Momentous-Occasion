@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://cjl25cyjixm65"]
+[gd_scene load_steps=13 format=3 uid="uid://cjl25cyjixm65"]
 
 [ext_resource type="PackedScene" uid="uid://dxgufrm8nhm7d" path="res://Models/mountain.glb" id="2_8ke5n"]
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="3_rb8gg"]
 [ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="4_ofule"]
 [ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="5_4uvjj"]
 [ext_resource type="Texture2D" uid="uid://dr256dgheo2j" path="res://pumpkinspice.png" id="6_hd1hi"]
+[ext_resource type="Script" path="res://Scripts/splash_screen.gd" id="6_wdieo"]
 
 [sub_resource type="Animation" id="Animation_rt22i"]
 resource_name = "splash_screen"
@@ -12,7 +13,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/Sprite2D:modulate")
+tracks/0/path = NodePath("SplashScreen/Sprite2D:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -24,7 +25,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/Logo:modulate")
+tracks/1/path = NodePath("SplashScreen/Logo:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -76,23 +77,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 size = Vector3(15.2433, 1, 801.792)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="SplashScreen" type="CanvasLayer" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+[node name="Sprite2D" type="Sprite2D" parent="SplashScreen"]
 modulate = Color(0, 0, 0, 0.490196)
 position = Vector2(960, 540)
 scale = Vector2(1.5, 0.75)
 texture = ExtResource("5_4uvjj")
 
-[node name="Logo" type="Sprite2D" parent="CanvasLayer"]
+[node name="Logo" type="Sprite2D" parent="SplashScreen"]
 position = Vector2(960, 540)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("6_hd1hi")
 
-[node name="SplashScreen" type="AnimationPlayer" parent="."]
+[node name="SplashScreen" type="AnimationPlayer" parent="SplashScreen"]
+root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_u5002")
 }
+script = ExtResource("6_wdieo")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7boq2")

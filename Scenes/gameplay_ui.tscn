@@ -20,6 +20,7 @@ max_value = 10.0
 show_percentage = false
 
 [node name="Debug" type="GridContainer" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_eypsk")
