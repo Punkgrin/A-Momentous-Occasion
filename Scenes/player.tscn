@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=12 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
@@ -7,6 +7,7 @@
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="4_o5s3b"]
 [ext_resource type="PackedScene" uid="uid://btje00jyp5xy6" path="res://Scenes/gameplay_ui.tscn" id="4_qtga1"]
 [ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Shaders/blundergust.tres" id="6_bw04t"]
+[ext_resource type="AudioStream" uid="uid://bepft1xorco72" path="res://SFX/fire.wav" id="8_j1p0a"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dx43"]
 
@@ -54,7 +55,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 fov = 120.0
 
 [node name="Blundergust" type="MeshInstance3D" parent="PitchPivot/RollPivot/Camera3D"]
-transform = Transform3D(-0.1, 0, 8.74228e-09, 0, 0.1, 0, -8.74228e-09, 0, -0.1, 0.5, -0.25, -1)
+transform = Transform3D(-0.1, 0, -2.53518e-07, 0, 0.1, 0, 2.53518e-07, 0, -0.1, 0.5, -0.25, -1)
 mesh = ExtResource("4_o5s3b")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("6_bw04t")
@@ -86,3 +87,6 @@ one_shot = true
 libraries = {
 "": SubResource("AnimationLibrary_tjjys")
 }
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("8_j1p0a")

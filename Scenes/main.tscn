@@ -99,3 +99,6 @@ libraries = {
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7boq2")
 camera_attributes = SubResource("CameraAttributesPractical_u2ckx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)

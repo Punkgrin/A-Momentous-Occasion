@@ -11,7 +11,7 @@ func _on_testing_pressed():
 	get_tree().change_scene_to_file("res://Scenes/testing.tscn")
 
 func _on_options_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://Scenes/options.tscn")
 
 func _on_quit_to_desktop_pressed():
 	get_tree().quit()

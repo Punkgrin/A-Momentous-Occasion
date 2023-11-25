@@ -5,7 +5,7 @@ var speed
 func _ready():
 	$SplashScreen.current_animation = "splash_screen"
 func _process(delta):
-	speed = (Vector3($Player.velocity.x, 0, $Player.velocity.y)).length()
+	speed = (Vector3($Player.velocity.x, 0, $Player.velocity.z)).length()
 	$Player/GameplayUI/Debug/XVelocity.text = "X Velocity: " + str($Player.velocity.x)
 	$Player/GameplayUI/Debug/ZVelocity.text = "Z Velocity: " + str($Player.velocity.z)
 	$Player/GameplayUI/Debug/Friction.text = "Friction: " + str($Player.physics.friction)

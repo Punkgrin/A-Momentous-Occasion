@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bo5i0vmve366w"]
+[gd_scene load_steps=5 format=3 uid="uid://bo5i0vmve366w"]
 
 [ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_m8kng"]
 [ext_resource type="PackedScene" uid="uid://b4hgis3fu0l50" path="res://Scenes/testing.tscn" id="2_ah3l3"]
+[ext_resource type="Theme" uid="uid://0l0pdo16thjx" path="res://menu.tres" id="3_r5xw6"]
 
-[sub_resource type="SystemFont" id="SystemFont_jpoi6"]
-subpixel_positioning = 0
+[sub_resource type="Theme" id="Theme_yhlfk"]
+Button/styles/normal = null
 
 [node name="menu" type="CanvasLayer"]
 script = ExtResource("1_m8kng")
@@ -22,6 +23,7 @@ offset_right = 960.0
 offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_r5xw6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -30,31 +32,27 @@ size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 100
+theme_override_font_sizes/font_size = 150
 text = "A Momentous Occasion"
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_jpoi6")
+theme = SubResource("Theme_yhlfk")
 theme_override_font_sizes/font_size = 100
 text = "Play"
 
 [node name="Testing" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_jpoi6")
 theme_override_font_sizes/font_size = 100
 text = "Testing"
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_jpoi6")
 theme_override_font_sizes/font_size = 100
 text = "Options"
 
 [node name="QuitToDesktop" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_jpoi6")
 theme_override_font_sizes/font_size = 100
 text = "Quit to Desktop"
 
