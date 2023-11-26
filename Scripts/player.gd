@@ -166,11 +166,11 @@ func _physics_process(delta):
 			$Step.stop()
 		double_jump = 2
 	else:
-	# Source-style airstrafing LET'S GOOOOOOOOOO
-		if (-relative_speed.x < max_speed && input_dir.x < 0): velocity.x += direction.x * air_accel * delta;
-		if (relative_speed.x < max_speed && input_dir.x > 0): velocity.x += direction.x * air_accel * delta;
-		if (-relative_speed.z < max_speed && input_dir.y < 0) : velocity.z += direction.z * air_accel * delta;
-		if (relative_speed.z < max_speed && input_dir.y > 0): velocity.z += direction.z * air_accel * delta;
+	# No more airstrafing, but kinda like source I guess.
+		if (velocity.x <= 0 && -velocity.x <= max_speed || velocity.x <= 0 && velocity.x * direction.x < 0): velocity.x += direction.x * air_accel * delta;
+		if (velocity.z <= 0 && -velocity.z <= max_speed || velocity.z <= 0 && velocity.z * direction.z < 0): velocity.z += direction.z * air_accel * delta;
+		if (velocity.x >= 0 && velocity.x <= max_speed || velocity.x >= 0 && velocity.x * direction.x < 0): velocity.x += direction.x * air_accel * delta;
+		if (velocity.z >= 0 && velocity.z <= max_speed || velocity.z >= 0 && velocity.z * direction.z < 0): velocity.z += direction.z * air_accel * delta;
 		$Slide.stop()
 		$Step.stop()
 
