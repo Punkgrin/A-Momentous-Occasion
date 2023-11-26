@@ -73,8 +73,8 @@ func _physics_process(delta):
 		$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = 1 + sqrt(total_speed) / 10
 		$PitchPivot/RollPivot/Camera3D/Wind.amount = 10 + int(sqrt(total_speed) * 1.5)
 		if (total_speed >= 15):
-			wind.scale_min = sqrt(total_speed) / 500 - 0.001
-			wind.scale_max = sqrt(total_speed) / 500 - 0.001
+			wind.scale_min = sqrt(total_speed) / 450
+			wind.scale_max = sqrt(total_speed) / 450
 		else:
 			wind.scale_min = 0
 			wind.scale_max = 0
