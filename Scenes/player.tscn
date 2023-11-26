@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=22 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
@@ -8,6 +8,7 @@
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="4_o5s3b"]
 [ext_resource type="PackedScene" uid="uid://btje00jyp5xy6" path="res://Scenes/gameplay_ui.tscn" id="4_qtga1"]
 [ext_resource type="Material" uid="uid://htb2h822q13r" path="res://Effects/wind.tres" id="7_snnpo"]
+[ext_resource type="Shader" path="res://Effects/pixelate.gdshader" id="8_cqkqc"]
 [ext_resource type="AudioStream" uid="uid://bepft1xorco72" path="res://SFX/fire.wav" id="8_j1p0a"]
 [ext_resource type="AudioStream" uid="uid://bw05aexvbuoik" path="res://SFX/jump.wav" id="8_lkoa3"]
 [ext_resource type="AudioStream" uid="uid://bpsvo78mnud0u" path="res://SFX/step.wav" id="10_6k8cl"]
@@ -27,6 +28,13 @@ material = SubResource("StandardMaterial3D_102rq")
 radial_steps = 3
 sections = 4
 section_length = 1.87
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ivrt"]
+render_priority = 0
+shader = ExtResource("8_cqkqc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_4oeyw"]
+material = SubResource("ShaderMaterial_6ivrt")
 
 [sub_resource type="Animation" id="Animation_ey18e"]
 resource_name = "fire"
@@ -95,6 +103,10 @@ trail_enabled = true
 trail_lifetime = 1.0
 process_material = ExtResource("7_snnpo")
 draw_pass_1 = SubResource("TubeTrailMesh_jac24")
+
+[node name="Pixelation" type="MeshInstance3D" parent="PitchPivot/RollPivot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+mesh = SubResource("QuadMesh_4oeyw")
 
 [node name="LeftWallCheck" type="RayCast3D" parent="PitchPivot"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0, 0)

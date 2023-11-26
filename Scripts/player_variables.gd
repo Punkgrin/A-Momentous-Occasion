@@ -11,3 +11,5 @@ var on_left_wall
 var relative_speed
 var total_speed = 0.0
 
+var menu_music_playback = 0.0
+

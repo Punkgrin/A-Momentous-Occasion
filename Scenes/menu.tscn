@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bo5i0vmve366w"]
+[gd_scene load_steps=6 format=3 uid="uid://bo5i0vmve366w"]
 
 [ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_m8kng"]
 [ext_resource type="PackedScene" uid="uid://b4hgis3fu0l50" path="res://Scenes/testing.tscn" id="2_ah3l3"]
 [ext_resource type="Theme" uid="uid://0l0pdo16thjx" path="res://menu.tres" id="3_r5xw6"]
+[ext_resource type="AudioStream" uid="uid://cnvr68jbtktx1" path="res://SFX/menuloop.wav" id="4_a5qhb"]
 
 [sub_resource type="Theme" id="Theme_yhlfk"]
 Button/styles/normal = null
@@ -30,15 +31,23 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 150
-text = "A Momentous Occasion"
+theme_override_font_sizes/normal_font_size = 100
+theme_override_font_sizes/bold_font_size = 300
+theme_override_font_sizes/italics_font_size = 300
+theme_override_font_sizes/bold_italics_font_size = 300
+theme_override_font_sizes/mono_font_size = 300
+bbcode_enabled = true
+text = "[wave amp=60.0 freq=2.0 connected=1]A Momentous Occasion"
+fit_content = true
+autowrap_mode = 0
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_yhlfk")
 theme_override_font_sizes/font_size = 100
+disabled = true
 text = "Play"
 
 [node name="Testing" type="Button" parent="MarginContainer/VBoxContainer"]
@@ -55,6 +64,10 @@ text = "Options"
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "Quit to Desktop"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_a5qhb")
+autoplay = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Testing" to="." method="_on_testing_pressed"]

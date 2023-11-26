@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://be2k264lql0dp"]
+[gd_scene load_steps=4 format=3 uid="uid://be2k264lql0dp"]
 
 [ext_resource type="Script" path="res://Scripts/options.gd" id="1_ng2m1"]
 [ext_resource type="Theme" uid="uid://0l0pdo16thjx" path="res://menu.tres" id="2_sm4p8"]
+[ext_resource type="AudioStream" uid="uid://cnvr68jbtktx1" path="res://SFX/menuloop.wav" id="3_umbnx"]
 
 [node name="options" type="CanvasLayer"]
 script = ExtResource("1_ng2m1")
@@ -33,11 +34,15 @@ horizontal_alignment = 1
 
 [node name="FOV" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "FOV:"
+text = "There are none haha"
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
 text = "Back"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_umbnx")
+autoplay = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
