@@ -126,18 +126,17 @@ func _physics_process(delta):
 	# Wallrunning variables
 	on_left_wall = $PitchPivot/LeftWallCheck.is_colliding()
 	on_right_wall = $PitchPivot/RightWallCheck.is_colliding()
-	if (on_left_wall): wall_normal = $PitchPivot/LeftWallCheck.get_collision_normal();
-	if (on_right_wall): wall_normal = $PitchPivot/RightWallCheck.get_collision_normal();
+	wall_normal = get_wall_normal()
 
 	# WALLRUNNING!!! (sort of)
 	var angle_tween = get_tree().create_tween()
-	if ((is_on_wall_only()) && input_dir.y < 0 && !is_on_floor()):
+	if ((on_left_wall || on_right_wall) && is_on_wall_only() && input_dir.y < 0 && !is_on_floor()):
 		if on_left_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, -20), 1);
 		if on_right_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, 20), 1);
 		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 2)
-		velocity.y -= gravity * delta / 3
+		velocity.y -= gravity * delta / 2
 		velocity -= wall_normal * wall_magnetism * delta
-		double_jump = 2
+		double_jump = 1
 		direction.x = 0
 	# Quick gravity cameo
 	elif !is_on_floor():
