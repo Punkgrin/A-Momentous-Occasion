@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://rvhsnui8aq8v"]
+
+[ext_resource type="Script" path="res://Scenes/blundergust_pickup.gd" id="1_4f0go"]
+[ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Effects/blundergust.tres" id="1_gglui"]
+[ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="2_k05qo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rn3v1"]
+
+[node name="blundergust_pickup" type="Area3D"]
+script = ExtResource("1_4f0go")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_rn3v1")
+
+[node name="Blundergust" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+material_override = ExtResource("1_gglui")
+mesh = ExtResource("2_k05qo")

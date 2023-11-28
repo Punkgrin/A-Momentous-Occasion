@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+signal on_obtaining_blundergust
+
+# There's not much rhyme or reason for the placement of any of these variables
 const player = true
 const max_speed = 10
 const air_accel = 15
@@ -10,14 +13,13 @@ const jump = 6
 const sensitivity = 0.004
 const blundergust_power = 300.0
 
-# Headbob variables that I "borrowed"
+# Variables that I "borrowed" (shoutout to LegionGames for the amazing first person controller tutorial)
 const bob_frequency = 2
 const bob_amplitude = 0.1
 var t_bob = 0.0
-
-# Also "borrowed" (shoutout to LegionGames for the amazing first person controller tutorial)
 const fov_change = 1.1
 
+# More random variables
 var input_dir
 var direction
 var wall_normal
@@ -34,6 +36,7 @@ var double_jump = 0
 @onready var camera = $PitchPivot/RollPivot/Camera3D
 
 @export var blundergust : StandardMaterial3D
+@export var blundergust_pickup : PackedScene
 @export var wind : ParticleProcessMaterial
 @export var physics : PhysicsMaterial
 @export var steam_scene : PackedScene
@@ -42,6 +45,7 @@ var double_jump = 0
 # Captures the mouse
 func _ready(): 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$PitchPivot/RollPivot/Camera3D/Blundergust.visible = Player.has_blundergust
 	$PitchPivot/RollPivot/Camera3D/Pixelation.visible = Player.visible
 	$PitchPivot/RollPivot/Camera3D/Pixelation.set_surface_override_material(0, Player.material)
 # Camera Movement
@@ -68,6 +72,7 @@ func _physics_process(delta):
 	Player.on_left_wall = on_left_wall
 	Player.relative_speed = relative_speed
 	Player.total_speed = total_speed
+	Player.in_range_pickup = $PitchPivot/RollPivot/Camera3D/Pickup.is_colliding()
 
 	# Wind (wow)
 	if velocity:
@@ -80,6 +85,12 @@ func _physics_process(delta):
 		else:
 			wind.scale_min = 0
 			wind.scale_max = 0
+
+	# Picking up the blundergust for more dramatic effect (literally no other reason) 
+	if Input.is_action_just_pressed("Use") && Player.in_range_pickup && $PitchPivot/RollPivot/Camera3D/Pickup.get_collider().blundergust == true:
+		Player.has_blundergust = true
+		$PitchPivot/RollPivot/Camera3D/Blundergust.visible = true
+		$PitchPivot/RollPivot/Camera3D/Pickup.get_collider().queue_free()
 
 	# Jumping and jump effects
 	if Input.is_action_just_pressed("Jump") && is_on_floor() || Input.is_action_just_pressed("Jump") && double_jump > 0:
@@ -102,13 +113,13 @@ func _physics_process(delta):
 		$Step.pitch_scale = 0.7
 
 	# Sliding and stuff
-	if Input.is_action_pressed("Crouch"):
-		$CollisionShape3D.scale.y = 0.5
-	else:
-		$CollisionShape3D.scale.y = 1
+	if Input.is_action_just_pressed("Crouch"): position.y -= 0.5;
+	if Input.is_action_just_released("Crouch"): position.y += 0.5;
+	if Input.is_action_pressed("Crouch"): $CollisionShape3D.scale.y = 0.5;
+	else: $CollisionShape3D.scale.y = 1;
 
 	# Firing out steam from the blundergust
-	if Input.is_action_just_pressed("Fire") && $BlundergustCooldown.is_stopped():
+	if Input.is_action_just_pressed("Fire") && $BlundergustCooldown.is_stopped() && Player.has_blundergust == true:
 		var color_tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE)
 		var steam = steam_scene.instantiate()
 		var firing_vector = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint/FireVector.global_position - $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
@@ -134,7 +145,7 @@ func _physics_process(delta):
 	if ((on_left_wall || on_right_wall) && is_on_wall_only() && input_dir.y < 0 && !is_on_floor()):
 		if on_left_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, -20), 1);
 		if on_right_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, 20), 1);
-		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 2)
+		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 3)
 		velocity.y -= gravity * delta / 2
 		velocity -= wall_normal * wall_magnetism * delta
 		double_jump = 1

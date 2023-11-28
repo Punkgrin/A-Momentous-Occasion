@@ -1,0 +1,181 @@
+[gd_scene load_steps=17 format=3 uid="uid://c8pisb3x471du"]
+
+[ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_8hmxt"]
+[ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="2_4dwy6"]
+[ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="3_ccbx0"]
+[ext_resource type="Material" uid="uid://d0dk6osygrmo8" path="res://Font/text.tres" id="3_ig51v"]
+[ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="3_ondo1"]
+[ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_wr8nn"]
+
+[sub_resource type="TextMesh" id="TextMesh_2cnt4"]
+material = ExtResource("3_ig51v")
+text = "Use WASD To move around"
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_db4qx"]
+material = ExtResource("3_ig51v")
+text = "Press SPACE To jump this gap"
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_4sbml"]
+material = ExtResource("3_ig51v")
+text = "Sometimes you may need to preserve
+speed while on the ground, in which 
+case you can slide with C or CTRL"
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_mctbu"]
+material = ExtResource("3_ig51v")
+text = "For gaps that would normally be
+impossible to jump, you can
+get a running start with SHIFT
+& press SPACE while in midair
+to perform a double jump"
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_hw5hv"]
+material = ExtResource("3_ig51v")
+text = "You will come across
+situations where there's
+no ground. Fret not, as
+you can run along walls."
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_mb7xj"]
+material = ExtResource("3_ig51v")
+text = "Now keep moving along!
+There's something 
+special I wish to give you."
+font_size = 50
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y18sq"]
+sky_top_color = Color(0, 0.478431, 0.713726, 1)
+sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
+sky_curve = 0.106066
+sky_energy_multiplier = 1.5
+ground_bottom_color = Color(0.34902, 0.34902, 0.34902, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_drrba"]
+sky_material = SubResource("ProceduralSkyMaterial_y18sq")
+
+[sub_resource type="Environment" id="Environment_nislo"]
+background_mode = 2
+background_color = Color(0.301961, 0.411765, 0.407843, 1)
+sky = SubResource("Sky_drrba")
+fog_sky_affect = 0.195
+volumetric_fog_density = 0.015
+adjustment_brightness = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1hlii"]
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 10.0
+
+[node name="tutorial" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_8hmxt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="LevelDisplayer" parent="." instance=ExtResource("2_4dwy6")]
+text = "Prelude"
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -11)
+use_collision = true
+size = Vector3(10, 1, 10)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -1)
+use_collision = true
+size = Vector3(10, 1, 10)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.5, -6)
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -40)
+use_collision = true
+size = Vector3(12, 5, 1)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5, 4.5, -128)
+use_collision = true
+size = Vector3(20, 7, 1)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5, 4.5, -142)
+use_collision = true
+size = Vector3(20, 7, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.5, -6)
+use_collision = true
+size = Vector3(1, 5, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -40)
+use_collision = true
+size = Vector3(10, 1, 32.1716)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -94)
+use_collision = true
+size = Vector3(10, 1, 32.1716)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -175.744)
+use_collision = true
+size = Vector3(10, 1, 32.1716)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -0.193439, -20.372, -211.445)
+use_collision = true
+size = Vector3(10, 1, 56.4764)
+
+[node name="JumpPad" parent="Terrain" instance=ExtResource("3_ondo1")]
+transform = Transform3D(-6.18172e-08, -6.18172e-08, 2, -1.41421, 1.41421, 0, -1.41421, -1.41421, -8.74228e-08, 0, -37.805, -229.75)
+
+[node name="blundergust_pickup" parent="Terrain" instance=ExtResource("3_wr8nn")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -6)
+mesh = SubResource("TextMesh_2cnt4")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -15)
+mesh = SubResource("TextMesh_db4qx")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -38.0641)
+mesh = SubResource("TextMesh_4sbml")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -55.0641)
+mesh = SubResource("TextMesh_mctbu")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -109.064)
+mesh = SubResource("TextMesh_hw5hv")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -190.064)
+mesh = SubResource("TextMesh_mb7xj")
+skeleton = NodePath("../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_nislo")
+camera_attributes = SubResource("CameraAttributesPractical_1hlii")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
+
+[node name="KillPlane" parent="." instance=ExtResource("3_ccbx0")]

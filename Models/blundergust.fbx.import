@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c6ophxcfe3kos"
-path="res://.godot/imported/blundergust.fbx-71812eaf45777d1b45f901c9febc347e.scn"
+path="res://.godot/imported/blundergust.fbx-1238c47988c1bf72cee9eab627f00039.scn"
 
 [deps]
 
-source_file="res://Scenes/blundergust.fbx"
-dest_files=["res://.godot/imported/blundergust.fbx-71812eaf45777d1b45f901c9febc347e.scn"]
+source_file="res://Models/blundergust.fbx"
+dest_files=["res://.godot/imported/blundergust.fbx-1238c47988c1bf72cee9eab627f00039.scn"]
 
 [params]
 

@@ -47,7 +47,6 @@ autowrap_mode = 0
 layout_mode = 2
 theme = SubResource("Theme_yhlfk")
 theme_override_font_sizes/font_size = 100
-disabled = true
 text = "Play"
 
 [node name="Testing" type="Button" parent="MarginContainer/VBoxContainer"]

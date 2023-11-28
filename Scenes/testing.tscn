@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4hgis3fu0l50"]
+[gd_scene load_steps=14 format=3 uid="uid://b4hgis3fu0l50"]
 
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_4uqqt"]
 [ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_usoax"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="6_0alxo"]
 [ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="6_wi400"]
+[ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="7_rbjje"]
 [ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="8_tl07g"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3g3gn"]
@@ -12,15 +13,16 @@ sky_top_color = Color(0, 0.478431, 0.713726, 1)
 sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
 sky_curve = 0.106066
 sky_energy_multiplier = 1.5
-ground_bottom_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0.34902, 0.34902, 0.34902, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_drrba"]
+[sub_resource type="Sky" id="Sky_dcfdt"]
 sky_material = SubResource("ProceduralSkyMaterial_3g3gn")
 
 [sub_resource type="Environment" id="Environment_b63ry"]
 background_mode = 2
-sky = SubResource("Sky_drrba")
+background_color = Color(0.301961, 0.411765, 0.407843, 1)
+sky = SubResource("Sky_dcfdt")
 fog_sky_affect = 0.195
 volumetric_fog_density = 0.015
 adjustment_brightness = 1.08
@@ -139,3 +141,6 @@ transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 25.4641, 0
 material_override = ExtResource("6_0alxo")
 use_collision = true
 size = Vector3(1, 10, 15)
+
+[node name="LevelDisplayer" parent="." instance=ExtResource("7_rbjje")]
+text = "Test"

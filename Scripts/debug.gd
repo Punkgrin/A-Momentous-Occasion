@@ -12,3 +12,4 @@ func _process(delta):
 		$LeftWall.text = "Left Wall: " + str(Player.on_left_wall)
 		$RightWall.text = "Right Wall: " + str(Player.on_right_wall)
 		$WallNormal.text = "Wall Normal: " + str(Player.wall_normal)
+		$Pickup.text = "In-Range Pickup: " + str(Player.in_range_pickup)

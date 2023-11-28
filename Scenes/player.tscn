@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=24 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
 [ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Effects/blundergust.tres" id="2_yvco2"]
 [ext_resource type="PackedScene" uid="uid://blm5vl76ke3r2" path="res://Scenes/steam.tscn" id="3_gfitd"]
+[ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_qajm0"]
 [ext_resource type="PackedScene" uid="uid://n1udymhkh557" path="res://Scenes/jump_effect.tscn" id="3_s1n6q"]
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="4_o5s3b"]
 [ext_resource type="PackedScene" uid="uid://btje00jyp5xy6" path="res://Scenes/gameplay_ui.tscn" id="4_qtga1"]
@@ -62,8 +63,10 @@ _data = {
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+floor_snap_length = 0.5
 script = ExtResource("1_gfmja")
 blundergust = ExtResource("2_yvco2")
+blundergust_pickup = ExtResource("3_qajm0")
 wind = ExtResource("7_snnpo")
 physics = ExtResource("1_ojf0a")
 steam_scene = ExtResource("3_gfitd")
@@ -82,6 +85,7 @@ fov = 120.0
 
 [node name="Blundergust" type="MeshInstance3D" parent="PitchPivot/RollPivot/Camera3D"]
 transform = Transform3D(-0.1, 0, -2.53518e-07, 0, 0.1, 0, 2.53518e-07, 0, -0.1, 0.5, -0.25, -1)
+visible = false
 mesh = ExtResource("4_o5s3b")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("2_yvco2")
@@ -108,6 +112,11 @@ draw_pass_1 = SubResource("TubeTrailMesh_jac24")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
 mesh = SubResource("QuadMesh_4oeyw")
 surface_material_override/0 = SubResource("ShaderMaterial_rm5ts")
+
+[node name="Pickup" type="RayCast3D" parent="PitchPivot/RollPivot/Camera3D"]
+target_position = Vector3(0, 0, -3)
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="LeftWallCheck" type="RayCast3D" parent="PitchPivot"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0, 0)

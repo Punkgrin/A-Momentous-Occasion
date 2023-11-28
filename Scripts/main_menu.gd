@@ -7,7 +7,7 @@ func _ready():
 	$AudioStreamPlayer.play(Player.menu_music_playback)
 
 func _on_play_pressed():
-	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+	get_tree().change_scene_to_file("res://Scenes/tutorial.tscn")
 	Player.menu_music_playback = 0.0
 
 func _on_testing_pressed():
