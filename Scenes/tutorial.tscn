@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c8pisb3x471du"]
+[gd_scene load_steps=21 format=3 uid="uid://c8pisb3x471du"]
 
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_8hmxt"]
 [ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="2_4dwy6"]
@@ -6,6 +6,7 @@
 [ext_resource type="Material" uid="uid://d0dk6osygrmo8" path="res://Font/text.tres" id="3_ig51v"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="3_ondo1"]
 [ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_wr8nn"]
+[ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="6_qw4gs"]
 
 [sub_resource type="TextMesh" id="TextMesh_2cnt4"]
 material = ExtResource("3_ig51v")
@@ -41,11 +42,35 @@ no ground. Fret not, as
 you can run along walls."
 font_size = 50
 
+[sub_resource type="TextMesh" id="TextMesh_ulavp"]
+material = ExtResource("3_ig51v")
+text = "Good job, but if you can't get
+past this bit, you don't stand
+a chance at the rest of the game."
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_2dlrv"]
+material = ExtResource("3_ig51v")
+text = "This is the Blundergust (TM).
+You can fire it to send yourself
+hurtling backward at ludicrous
+speeds. You'll need it."
+font_size = 50
+
+[sub_resource type="TextMesh" id="TextMesh_dv4vu"]
+material = ExtResource("3_ig51v")
+text = "In order to make this monstrosly large gap,
+you'll need to fire the Blundergust(TM)
+backwards while in midair. I don't blame
+you if you find this tricky."
+font_size = 50
+
 [sub_resource type="TextMesh" id="TextMesh_mb7xj"]
 material = ExtResource("3_ig51v")
-text = "Now keep moving along!
-There's something 
-special I wish to give you."
+text = "If you're stuck here, then you don't have 
+enough speed. Here's a little hint: Slide down
+that slope back there onto the steam vent
+& keep sliding until you get past this door."
 font_size = 50
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_y18sq"]
@@ -131,6 +156,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -175.74
 use_collision = true
 size = Vector3(10, 1, 32.1716)
 
+[node name="CSGBox3D12" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -475.744)
+use_collision = true
+size = Vector3(11.5, 1, 300)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -686.744)
+use_collision = true
+size = Vector3(11.5, 1, 100)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -885.744)
+use_collision = true
+size = Vector3(11.5, 1, 100)
+
 [node name="CSGBox3D11" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -0.193439, -20.372, -211.445)
 use_collision = true
@@ -138,6 +178,7 @@ size = Vector3(10, 1, 56.4764)
 
 [node name="JumpPad" parent="Terrain" instance=ExtResource("3_ondo1")]
 transform = Transform3D(-6.18172e-08, -6.18172e-08, 2, -1.41421, 1.41421, 0, -1.41421, -1.41421, -8.74228e-08, 0, -37.805, -229.75)
+boost_power = 250
 
 [node name="blundergust_pickup" parent="Terrain" instance=ExtResource("3_wr8nn")]
 
@@ -168,8 +209,36 @@ skeleton = NodePath("../..")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -190.064)
+mesh = SubResource("TextMesh_ulavp")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -617.064)
+mesh = SubResource("TextMesh_2dlrv")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -734.064)
+mesh = SubResource("TextMesh_dv4vu")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0426083, 0, -579.064)
 mesh = SubResource("TextMesh_mb7xj")
 skeleton = NodePath("../..")
+
+[node name="blundergust_pickup2" parent="Terrain" instance=ExtResource("3_wr8nn")]
+transform = Transform3D(-8.84702e-08, -0.41456, -1.95656, 4.94358e-09, 1.95656, -0.41456, 2, -2.31743e-08, -8.55241e-08, 0, 1.117, -620.001)
+
+[node name="SpeedGates" parent="Terrain" instance=ExtResource("6_qw4gs")]
+transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, 0, 1, -583.407)
+
+[node name="KillPlane" parent="Terrain" instance=ExtResource("3_ccbx0")]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -620)
+use_collision = true
+height = 1.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nislo")
@@ -177,5 +246,3 @@ camera_attributes = SubResource("CameraAttributesPractical_1hlii")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
-
-[node name="KillPlane" parent="." instance=ExtResource("3_ccbx0")]
