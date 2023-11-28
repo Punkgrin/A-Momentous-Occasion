@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=23 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://bw05aexvbuoik" path="res://SFX/jump.wav" id="8_lkoa3"]
 [ext_resource type="AudioStream" uid="uid://bpsvo78mnud0u" path="res://SFX/step.wav" id="10_6k8cl"]
 [ext_resource type="AudioStream" uid="uid://5w82vr00vgq1" path="res://SFX/slide.wav" id="11_r66rs"]
+[ext_resource type="AudioStream" uid="uid://c513jxof6mork" path="res://SFX/emptyshot.wav" id="12_ieg21"]
 [ext_resource type="AudioStream" uid="uid://dft83q1uy7x27" path="res://SFX/wind.wav" id="12_rbna6"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dx43"]
@@ -29,12 +30,11 @@ radial_steps = 3
 sections = 4
 section_length = 1.87
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ivrt"]
+[sub_resource type="QuadMesh" id="QuadMesh_4oeyw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rm5ts"]
 render_priority = 0
 shader = ExtResource("8_cqkqc")
-
-[sub_resource type="QuadMesh" id="QuadMesh_4oeyw"]
-material = SubResource("ShaderMaterial_6ivrt")
 
 [sub_resource type="Animation" id="Animation_ey18e"]
 resource_name = "fire"
@@ -107,6 +107,7 @@ draw_pass_1 = SubResource("TubeTrailMesh_jac24")
 [node name="Pixelation" type="MeshInstance3D" parent="PitchPivot/RollPivot/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
 mesh = SubResource("QuadMesh_4oeyw")
+surface_material_override/0 = SubResource("ShaderMaterial_rm5ts")
 
 [node name="LeftWallCheck" type="RayCast3D" parent="PitchPivot"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.5, 0, 0)
@@ -130,21 +131,29 @@ libraries = {
 [node name="Jump" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("8_lkoa3")
 volume_db = -30.0
-max_db = 1.0
+bus = &"SFX"
 
 [node name="Fire" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("8_j1p0a")
 max_db = 1.0
+bus = &"SFX"
+
+[node name="Empty" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_ieg21")
+bus = &"SFX"
 
 [node name="Step" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("10_6k8cl")
 volume_db = 20.0
+bus = &"SFX"
 
 [node name="Slide" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("11_r66rs")
 panning_strength = 0.0
+bus = &"SFX"
 
 [node name="Wind" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("12_rbna6")
 volume_db = -50.0
 autoplay = true
+bus = &"SFX"

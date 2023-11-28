@@ -1,23 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://btje00jyp5xy6"]
+[gd_scene load_steps=3 format=3 uid="uid://btje00jyp5xy6"]
 
 [ext_resource type="Script" path="res://Scripts/debug.gd" id="1_eypsk"]
+[ext_resource type="PackedScene" uid="uid://bslb1y7xsj8kg" path="res://Scenes/splash_screen.tscn" id="1_r2wru"]
 
 [node name="GameplayUI" type="CanvasLayer"]
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-modulate = Color(1, 1, 0.996078, 1)
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -713.0
-offset_top = -141.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 100
-max_value = 10.0
-show_percentage = false
+[node name="SplashScreen" parent="." instance=ExtResource("1_r2wru")]
 
 [node name="Debug" type="GridContainer" parent="."]
 visible = false

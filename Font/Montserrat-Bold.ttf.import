@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://jaxtqakk4lxy"
-path="res://.godot/imported/Kanit-Black.ttf-db0a9755e8a8a2302b1ee9afbacf28ae.fontdata"
+uid="uid://dyy1aq2tmwhs5"
+path="res://.godot/imported/Montserrat-Bold.ttf-d38d0fe6d9b6cc136d1a117ff16f8dd7.fontdata"
 
 [deps]
 
-source_file="res://Font/Kanit-Black.ttf"
-dest_files=["res://.godot/imported/Kanit-Black.ttf-db0a9755e8a8a2302b1ee9afbacf28ae.fontdata"]
+source_file="res://Font/Montserrat-Bold.ttf"
+dest_files=["res://.godot/imported/Montserrat-Bold.ttf-d38d0fe6d9b6cc136d1a117ff16f8dd7.fontdata"]
 
 [params]
 

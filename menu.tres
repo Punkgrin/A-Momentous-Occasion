@@ -16,7 +16,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 shadow_color = Color(0, 0, 0, 0.913725)
 shadow_size = 10
-shadow_offset = Vector2(-30, 30)
+shadow_offset = Vector2(-10, 20)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wduqf"]
 bg_color = Color(0.231373, 0.282353, 0.34902, 1)
@@ -32,7 +32,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 shadow_color = Color(0, 0, 0, 0.913725)
 shadow_size = 10
-shadow_offset = Vector2(-30, 30)
+shadow_offset = Vector2(-10, 20)
 
 [sub_resource type="SystemFont" id="SystemFont_n7s04"]
 

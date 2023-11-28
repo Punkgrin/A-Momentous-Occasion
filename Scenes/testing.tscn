@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://b4hgis3fu0l50"]
+[gd_scene load_steps=13 format=3 uid="uid://b4hgis3fu0l50"]
 
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_4uqqt"]
 [ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_usoax"]
-[ext_resource type="PackedScene" uid="uid://bslb1y7xsj8kg" path="res://Scenes/splash_screen.tscn" id="2_wgbol"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="6_0alxo"]
 [ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="6_wi400"]
@@ -50,8 +49,6 @@ camera_attributes = SubResource("CameraAttributesPractical_i808c")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
-
-[node name="SplashScreen" parent="." instance=ExtResource("2_wgbol")]
 
 [node name="KillPlane" parent="." instance=ExtResource("6_wi400")]
 

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtb43i30a4itt"]
+
+[ext_resource type="Theme" uid="uid://0l0pdo16thjx" path="res://menu.tres" id="1_g0ypt"]
+[ext_resource type="FontFile" uid="uid://dyy1aq2tmwhs5" path="res://Font/Montserrat-Bold.ttf" id="2_r53ex"]
+
+[node name="LevelDisplayer" type="CanvasLayer"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme = ExtResource("1_g0ypt")
+theme_override_fonts/normal_font = ExtResource("2_r53ex")
+theme_override_font_sizes/normal_font_size = 300
+text = "First"
+fit_content = true
+autowrap_mode = 0

@@ -16,7 +16,6 @@ const bob_amplitude = 0.1
 var t_bob = 0.0
 
 # Also "borrowed" (shoutout to LegionGames for the amazing first person controller tutorial)
-const base_fov = 90
 const fov_change = 1.1
 
 var input_dir
@@ -41,7 +40,10 @@ var double_jump = 0
 @export var jump_effect_scene : PackedScene
 
 # Captures the mouse
-func _ready(): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED);
+func _ready(): 
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$PitchPivot/RollPivot/Camera3D/Pixelation.visible = Player.visible
+	$PitchPivot/RollPivot/Camera3D/Pixelation.set_surface_override_material(0, Player.material)
 # Camera Movement
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -120,8 +122,7 @@ func _physics_process(delta):
 		velocity -= firing_vector * blundergust_power
 		blundergust.albedo_color = Color.RED
 		color_tween.tween_property(blundergust, "albedo_color", Color.WHITE, 10)
-	# Adding fancy-shmancy UI for overheat
-	$GameplayUI/ProgressBar.set_value($BlundergustCooldown.time_left)
+	elif Input.is_action_just_pressed("Fire") && !$BlundergustCooldown.is_stopped(): $Empty.play();
 
 	# Wallrunning variables
 	on_left_wall = $PitchPivot/LeftWallCheck.is_colliding()
@@ -178,7 +179,7 @@ func _physics_process(delta):
 	camera.transform.origin = _headbob(t_bob)
 	# FOV change
 	var velocity_clamped = clamp(velocity.length(), 0.5, sprint * 2)
-	var target_fov = base_fov + fov_change * velocity_clamped
+	var target_fov = Player.field_of_view + fov_change * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
 	
 	# Menu && Debug

@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cidpdckupu6cu"]
+
+[ext_resource type="Shader" path="res://Effects/normal.gdshader" id="1_sgd4d"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_sgd4d")
