@@ -3,7 +3,6 @@ extends CharacterBody3D
 signal on_obtaining_blundergust
 
 # There's not much rhyme or reason for the placement of any of these variables
-const player = true
 const max_speed = 10
 const air_accel = 15
 const wall_magnetism = 10
@@ -35,12 +34,13 @@ var double_jump = 0
 @onready var head = $PitchPivot
 @onready var camera = $PitchPivot/RollPivot/Camera3D
 
-@export var blundergust : StandardMaterial3D
-@export var blundergust_pickup : PackedScene
-@export var wind : ParticleProcessMaterial
-@export var physics : PhysicsMaterial
-@export var steam_scene : PackedScene
-@export var jump_effect_scene : PackedScene
+@export var kill_point = -100
+
+var blundergust = preload("res://Effects/blundergust.tres")
+var blundergust_pickup = preload("res://Scenes/blundergust_pickup.tscn")
+var wind = preload("res://Effects/wind.tres")
+var steam_scene = preload("res://Effects/steam.tscn")
+var jump_effect_scene = preload("res://Effects/jump_effect.tscn")
 
 # Captures the mouse
 func _ready(): 
@@ -75,22 +75,59 @@ func _physics_process(delta):
 	Player.in_range_pickup = $PitchPivot/RollPivot/Camera3D/Pickup.is_colliding()
 
 	# Wind (wow)
-	if velocity:
-		$Wind.volume_db = -70 + 5 * sqrt(total_speed)
-		$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = 1 + sqrt(total_speed) / 10
-		$PitchPivot/RollPivot/Camera3D/Wind.amount = 10 + int(sqrt(total_speed) * 1.5)
-		if (total_speed >= 15):
-			wind.scale_min = sqrt(total_speed) / 450
-			wind.scale_max = sqrt(total_speed) / 450
-		else:
-			wind.scale_min = 0
-			wind.scale_max = 0
+	$Wind.volume_db = -70 + 5 * sqrt(total_speed)
+	$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = 1 + sqrt(total_speed) / 10
+	$PitchPivot/RollPivot/Camera3D/Wind.amount = 10 + int(sqrt(total_speed) * 1.5)
+	if (total_speed >= 15):
+		wind.scale_min = sqrt(total_speed) / 450
+		wind.scale_max = sqrt(total_speed) / 450
+	else:
+		wind.scale_min = 0
+		wind.scale_max = 0
 
-	# Picking up the blundergust for more dramatic effect (literally no other reason) 
-	if Input.is_action_just_pressed("Use") && Player.in_range_pickup && $PitchPivot/RollPivot/Camera3D/Pickup.get_collider().blundergust == true:
-		Player.has_blundergust = true
-		$PitchPivot/RollPivot/Camera3D/Blundergust.visible = true
-		$PitchPivot/RollPivot/Camera3D/Pickup.get_collider().queue_free()
+	# Wallrunning variables
+	on_left_wall = $PitchPivot/LeftWallCheck.is_colliding()
+	on_right_wall = $PitchPivot/RightWallCheck.is_colliding()
+	wall_normal = get_wall_normal()
+
+	# Headbob
+	t_bob += delta * velocity.length() * float(is_on_floor()) * float(!Input.is_action_pressed("Crouch"))
+	camera.transform.origin = _headbob(t_bob)
+	# FOV change
+	var velocity_clamped = clamp(velocity.length(), 0.5, sprint * 2)
+	var target_fov = Player.field_of_view + fov_change * velocity_clamped
+	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+
+	# Kills the player after falling past the kill point
+	if (position.y <= kill_point):
+		position = Vector3.UP
+		velocity = Vector3.ZERO
+
+	handle_inputs(delta)
+	move_and_slide()
+
+# Handles head bobbing (doi)
+func _headbob(time) -> Vector3:
+	var pos = Vector3.ZERO
+	pos.y = sin(time * bob_frequency) * bob_amplitude
+	pos.x = cos(time * bob_frequency / 2) * bob_amplitude
+	return pos
+
+# Handles the inputs from the player and things
+func handle_inputs(delta):
+	# Menu && Debug
+	if Input.is_action_just_pressed("Quit"): get_tree().change_scene_to_file("res://Scenes/menu.tscn");
+	if Input.is_action_just_pressed("Debug"):
+		if ($GameplayUI/Debug.visible) == true: $GameplayUI/Debug.hide()
+		else: $GameplayUI/Debug.show()
+
+	# Sprinting
+	if Input.is_action_pressed("Sprint"):
+		speed = sprint
+		$Step.pitch_scale = 1.2
+	else:
+		speed = walk
+		$Step.pitch_scale = 0.7
 
 	# Jumping and jump effects
 	if Input.is_action_just_pressed("Jump") && is_on_floor() || Input.is_action_just_pressed("Jump") && double_jump > 0:
@@ -104,13 +141,50 @@ func _physics_process(delta):
 		if !is_on_floor():
 			double_jump -= 2
 
-	# Sprinting
-	if Input.is_action_pressed("Sprint"):
-		speed = sprint
-		$Step.pitch_scale = 1.2
+	# Various movements
+	if is_on_floor():
+		if direction && !Input.is_action_pressed("Crouch"):
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
+			Player.physics.friction = 1
+			$Slide.stop()
+			$Step.play($Step.get_playback_position())
+		elif velocity && Input.is_action_pressed("Crouch"):
+			Player.physics.friction = 0.5
+			$Slide.play($Slide.get_playback_position())
+			$Step.stop()
+		else:
+			velocity.x = lerp(velocity.x, direction.x * speed, delta * 50.0)
+			velocity.z = lerp(velocity.z, direction.z * speed, delta * 50.0)
+			Player.physics.friction = 1
+			$Slide.stop()
+			$Step.stop()
+		double_jump = 2
 	else:
-		speed = walk
-		$Step.pitch_scale = 0.7
+	# No more airstrafing, but kinda like source I guess.
+		if (velocity.x <= 0 && -velocity.x <= max_speed || velocity.x <= 0 && velocity.x * direction.x < 0): velocity.x += direction.x * air_accel * delta;
+		if (velocity.z <= 0 && -velocity.z <= max_speed || velocity.z <= 0 && velocity.z * direction.z < 0): velocity.z += direction.z * air_accel * delta;
+		if (velocity.x >= 0 && velocity.x <= max_speed || velocity.x >= 0 && velocity.x * direction.x < 0): velocity.x += direction.x * air_accel * delta;
+		if (velocity.z >= 0 && velocity.z <= max_speed || velocity.z >= 0 && velocity.z * direction.z < 0): velocity.z += direction.z * air_accel * delta;
+		$Slide.stop()
+		$Step.stop()
+
+	# WALLRUNNING!!! (sort of)
+	var angle_tween = get_tree().create_tween()
+	if ((on_left_wall || on_right_wall) && is_on_wall_only() && input_dir.y < 0 && !is_on_floor()):
+		if on_left_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, -20), 1);
+		if on_right_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, 20), 1);
+		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 3)
+		velocity.y -= gravity * delta / 2
+		velocity -= wall_normal * wall_magnetism * delta
+		double_jump = 1
+		direction.x = 0
+	# Quick gravity cameo
+	elif !is_on_floor():
+		if ($PitchPivot/RollPivot.rotation_degrees.z != 0): angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3.ZERO, 0.5);
+		velocity.y -= gravity * delta
+	else:
+		if ($PitchPivot/RollPivot.rotation_degrees.z != 0): angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3.ZERO, 0.5);
 
 	# Sliding and stuff
 	if Input.is_action_just_pressed("Crouch"): position.y -= 0.5;
@@ -135,74 +209,9 @@ func _physics_process(delta):
 		color_tween.tween_property(blundergust, "albedo_color", Color.WHITE, 10)
 	elif Input.is_action_just_pressed("Fire") && !$BlundergustCooldown.is_stopped(): $Empty.play();
 
-	# Wallrunning variables
-	on_left_wall = $PitchPivot/LeftWallCheck.is_colliding()
-	on_right_wall = $PitchPivot/RightWallCheck.is_colliding()
-	wall_normal = get_wall_normal()
-
-	# WALLRUNNING!!! (sort of)
-	var angle_tween = get_tree().create_tween()
-	if ((on_left_wall || on_right_wall) && is_on_wall_only() && input_dir.y < 0 && !is_on_floor()):
-		if on_left_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, -20), 1);
-		if on_right_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, 20), 1);
-		if (Input.is_action_just_pressed("Jump")): velocity += (wall_normal * jump * 1.5) + (Vector3.UP * jump / 3)
-		velocity.y -= gravity * delta / 2
-		velocity -= wall_normal * wall_magnetism * delta
-		double_jump = 1
-		direction.x = 0
-	# Quick gravity cameo
-	elif !is_on_floor():
-		if ($PitchPivot/RollPivot.rotation_degrees.z != 0): angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3.ZERO, 0.5);
-		velocity.y -= gravity * delta
-	else:
-		if ($PitchPivot/RollPivot.rotation_degrees.z != 0): angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3.ZERO, 0.5);
-
-	# Various movements
-	if is_on_floor():
-		if direction && !Input.is_action_pressed("Crouch"):
-			velocity.x = direction.x * speed
-			velocity.z = direction.z * speed
-			physics.friction = 1
-			$Slide.stop()
-			$Step.play($Step.get_playback_position())
-		elif velocity && Input.is_action_pressed("Crouch"):
-			physics.friction = 0.5
-			$Slide.play($Slide.get_playback_position())
-			$Step.stop()
-		else:
-			velocity.x = lerp(velocity.x, direction.x * speed, delta * 50.0)
-			velocity.z = lerp(velocity.z, direction.z * speed, delta * 50.0)
-			physics.friction = 1
-			$Slide.stop()
-			$Step.stop()
-		double_jump = 2
-	else:
-	# No more airstrafing, but kinda like source I guess.
-		if (velocity.x <= 0 && -velocity.x <= max_speed || velocity.x <= 0 && velocity.x * direction.x < 0): velocity.x += direction.x * air_accel * delta;
-		if (velocity.z <= 0 && -velocity.z <= max_speed || velocity.z <= 0 && velocity.z * direction.z < 0): velocity.z += direction.z * air_accel * delta;
-		if (velocity.x >= 0 && velocity.x <= max_speed || velocity.x >= 0 && velocity.x * direction.x < 0): velocity.x += direction.x * air_accel * delta;
-		if (velocity.z >= 0 && velocity.z <= max_speed || velocity.z >= 0 && velocity.z * direction.z < 0): velocity.z += direction.z * air_accel * delta;
-		$Slide.stop()
-		$Step.stop()
-
-	# Headbob
-	t_bob += delta * velocity.length() * float(is_on_floor()) * float(!Input.is_action_pressed("Crouch"))
-	camera.transform.origin = _headbob(t_bob)
-	# FOV change
-	var velocity_clamped = clamp(velocity.length(), 0.5, sprint * 2)
-	var target_fov = Player.field_of_view + fov_change * velocity_clamped
-	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
+	# Picking up the blundergust for more dramatic effect (literally no other reason) 
+	if Input.is_action_just_pressed("Use") && Player.in_range_pickup && $PitchPivot/RollPivot/Camera3D/Pickup.get_collider().blundergust == true:
+		Player.has_blundergust = true
+		$PitchPivot/RollPivot/Camera3D/Blundergust.visible = true
+		$PitchPivot/RollPivot/Camera3D/Pickup.get_collider().queue_free()
 	
-	# Menu && Debug
-	if Input.is_action_just_pressed("Quit"): get_tree().change_scene_to_file("res://Scenes/menu.tscn");
-	if Input.is_action_just_pressed("Debug"):
-		if ($GameplayUI/Debug.visible) == true: $GameplayUI/Debug.hide()
-		else: $GameplayUI/Debug.show()
-
-	move_and_slide()
-
-func _headbob(time) -> Vector3:
-	var pos = Vector3.ZERO
-	pos.y = sin(time * bob_frequency) * bob_amplitude
-	pos.x = cos(time * bob_frequency / 2) * bob_amplitude
-	return pos

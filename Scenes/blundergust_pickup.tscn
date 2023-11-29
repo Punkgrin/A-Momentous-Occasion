@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://rvhsnui8aq8v"]
 
-[ext_resource type="Script" path="res://Scenes/blundergust_pickup.gd" id="1_4f0go"]
+[ext_resource type="Script" path="res://Scripts/blundergust_pickup.gd" id="1_4f0go"]
 [ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Effects/blundergust.tres" id="1_gglui"]
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="2_k05qo"]
 

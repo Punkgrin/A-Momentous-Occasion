@@ -5,5 +5,5 @@ extends Area3D
 var blundergust = false
 
 func _on_body_entered(body):
-	var boost_vector = $BoostVector.global_position - global_position
-	body.velocity += boost_vector * boost_power
+		var boost_vector = $BoostVector.global_position - global_position
+		body.velocity += boost_vector * boost_power

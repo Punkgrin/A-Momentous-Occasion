@@ -1,11 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=20 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
-[ext_resource type="PhysicsMaterial" uid="uid://b60lo04fbymw4" path="res://Scenes/physics.tres" id="1_ojf0a"]
 [ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Effects/blundergust.tres" id="2_yvco2"]
-[ext_resource type="PackedScene" uid="uid://blm5vl76ke3r2" path="res://Scenes/steam.tscn" id="3_gfitd"]
-[ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_qajm0"]
-[ext_resource type="PackedScene" uid="uid://n1udymhkh557" path="res://Scenes/jump_effect.tscn" id="3_s1n6q"]
 [ext_resource type="ArrayMesh" uid="uid://mcyr3mswaem6" path="res://Models/blundergust.obj" id="4_o5s3b"]
 [ext_resource type="PackedScene" uid="uid://btje00jyp5xy6" path="res://Scenes/gameplay_ui.tscn" id="4_qtga1"]
 [ext_resource type="Material" uid="uid://htb2h822q13r" path="res://Effects/wind.tres" id="7_snnpo"]
@@ -60,17 +56,13 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 floor_snap_length = 0.5
 script = ExtResource("1_gfmja")
-blundergust = ExtResource("2_yvco2")
-blundergust_pickup = ExtResource("3_qajm0")
-wind = ExtResource("7_snnpo")
-physics = ExtResource("1_ojf0a")
-steam_scene = ExtResource("3_gfitd")
-jump_effect_scene = ExtResource("3_s1n6q")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_8dx43")

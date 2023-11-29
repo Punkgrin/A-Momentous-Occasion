@@ -1,7 +1,7 @@
 extends Node
 
 # All of the ACTUAL player variables
-var physics : PhysicsMaterial = preload("res://Scenes/physics.tres")
+var physics : PhysicsMaterial = preload("res://Effects/physics.tres")
 var velocity = Vector3.ZERO
 var input_dir
 var direction

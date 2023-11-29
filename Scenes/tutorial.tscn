@@ -1,12 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://c8pisb3x471du"]
+[gd_scene load_steps=24 format=3 uid="uid://c8pisb3x471du"]
 
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_8hmxt"]
 [ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="2_4dwy6"]
-[ext_resource type="PackedScene" uid="uid://j8kmaodqdkhq" path="res://Scenes/kill_plane.tscn" id="3_ccbx0"]
 [ext_resource type="Material" uid="uid://d0dk6osygrmo8" path="res://Font/text.tres" id="3_ig51v"]
+[ext_resource type="PackedScene" uid="uid://ca5a5ntf1hv7y" path="res://Scenes/scale.tscn" id="3_nbqfx"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="3_ondo1"]
 [ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_wr8nn"]
+[ext_resource type="PackedScene" uid="uid://5q44efsiqlf2" path="res://Scenes/deja_vu.tscn" id="6_lsyay"]
 [ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="6_qw4gs"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="9_p7u81"]
 
 [sub_resource type="TextMesh" id="TextMesh_2cnt4"]
 material = ExtResource("3_ig51v")
@@ -65,6 +67,15 @@ backwards while in midair. I don't blame
 you if you find this tricky."
 font_size = 50
 
+[sub_resource type="TextMesh" id="TextMesh_5ukch"]
+material = ExtResource("3_ig51v")
+text = "This is the golden scale. Collect it
+to move onto the next stage. Now,
+from here on out, you won't get any
+more hand holding because I'm off.
+Good luck, and don't die (too much)"
+font_size = 50
+
 [sub_resource type="TextMesh" id="TextMesh_mb7xj"]
 material = ExtResource("3_ig51v")
 text = "If you're stuck here, then you don't have 
@@ -81,13 +92,13 @@ sky_energy_multiplier = 1.5
 ground_bottom_color = Color(0.34902, 0.34902, 0.34902, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_drrba"]
+[sub_resource type="Sky" id="Sky_fqulp"]
 sky_material = SubResource("ProceduralSkyMaterial_y18sq")
 
 [sub_resource type="Environment" id="Environment_nislo"]
 background_mode = 2
 background_color = Color(0.301961, 0.411765, 0.407843, 1)
-sky = SubResource("Sky_drrba")
+sky = SubResource("Sky_fqulp")
 fog_sky_affect = 0.195
 volumetric_fog_density = 0.015
 adjustment_brightness = 1.08
@@ -100,87 +111,110 @@ dof_blur_far_transition = 10.0
 
 [node name="Player" parent="." instance=ExtResource("1_8hmxt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+kill_point = -50
 
 [node name="LevelDisplayer" parent="." instance=ExtResource("2_4dwy6")]
 text = "Prelude"
 
 [node name="Terrain" type="Node3D" parent="."]
 
+[node name="SpeedGates" parent="Terrain" instance=ExtResource("6_qw4gs")]
+transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, 0, 1, -583.407)
+
+[node name="scale" parent="Terrain" instance=ExtResource("3_nbqfx")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 1, -933)
+next_stage = ExtResource("6_lsyay")
+
+[node name="blundergust_pickup2" parent="Terrain" instance=ExtResource("3_wr8nn")]
+transform = Transform3D(-8.84702e-08, -0.41456, -1.95656, 4.94358e-09, 1.95656, -0.41456, 2, -2.31743e-08, -8.55241e-08, 0, 1.117, -620.001)
+
+[node name="JumpPad" parent="Terrain" instance=ExtResource("3_ondo1")]
+transform = Transform3D(-9.27259e-08, -9.27259e-08, 3, -2.12132, 2.12132, 0, -2.12132, -2.12132, -1.31134e-07, 0, -37.805, -229.75)
+boost_power = 150
+
 [node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -11)
 use_collision = true
 size = Vector3(10, 1, 10)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -1)
 use_collision = true
 size = Vector3(10, 1, 10)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.5, -6)
 use_collision = true
 size = Vector3(1, 5, 1)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -40)
 use_collision = true
 size = Vector3(12, 5, 1)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5, 4.5, -128)
 use_collision = true
 size = Vector3(20, 7, 1)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5, 4.5, -142)
 use_collision = true
 size = Vector3(20, 7, 1)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.5, -6)
 use_collision = true
 size = Vector3(1, 5, 1)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -40)
 use_collision = true
 size = Vector3(10, 1, 32.1716)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -94)
 use_collision = true
 size = Vector3(10, 1, 32.1716)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -175.744)
 use_collision = true
 size = Vector3(10, 1, 32.1716)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -475.744)
 use_collision = true
 size = Vector3(11.5, 1, 300)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -686.744)
 use_collision = true
 size = Vector3(11.5, 1, 100)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193439, -0.500002, -885.744)
 use_collision = true
 size = Vector3(11.5, 1, 100)
+material = ExtResource("9_p7u81")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -0.193439, -20.372, -211.445)
 use_collision = true
 size = Vector3(10, 1, 56.4764)
-
-[node name="JumpPad" parent="Terrain" instance=ExtResource("3_ondo1")]
-transform = Transform3D(-6.18172e-08, -6.18172e-08, 2, -1.41421, 1.41421, 0, -1.41421, -1.41421, -8.74228e-08, 0, -37.805, -229.75)
-boost_power = 250
-
-[node name="blundergust_pickup" parent="Terrain" instance=ExtResource("3_wr8nn")]
+material = ExtResource("9_p7u81")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -6)
@@ -222,18 +256,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -734.064)
 mesh = SubResource("TextMesh_dv4vu")
 skeleton = NodePath("../..")
 
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0426083, 4, -931.064)
+mesh = SubResource("TextMesh_5ukch")
+skeleton = NodePath("../..")
+
 [node name="MeshInstance3D8" type="MeshInstance3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.0426083, 0, -579.064)
 mesh = SubResource("TextMesh_mb7xj")
 skeleton = NodePath("../..")
-
-[node name="blundergust_pickup2" parent="Terrain" instance=ExtResource("3_wr8nn")]
-transform = Transform3D(-8.84702e-08, -0.41456, -1.95656, 4.94358e-09, 1.95656, -0.41456, 2, -2.31743e-08, -8.55241e-08, 0, 1.117, -620.001)
-
-[node name="SpeedGates" parent="Terrain" instance=ExtResource("6_qw4gs")]
-transform = Transform3D(-4, 0, -3.49691e-07, 0, 4, 0, 3.49691e-07, 0, -4, 0, 1, -583.407)
-
-[node name="KillPlane" parent="Terrain" instance=ExtResource("3_ccbx0")]
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Terrain"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -620)
