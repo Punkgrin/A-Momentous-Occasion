@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="1_fip5b"]
 [ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="2_nrti5"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="3_7x5pp"]
-[ext_resource type="PackedScene" uid="uid://ca5a5ntf1hv7y" path="res://Scenes/scale.tscn" id="4_uqe3l"]
+[ext_resource type="PackedScene" uid="uid://d1sxncqwba4g4" path="res://Scenes/scale.tscn" id="4_uqe3l"]
 [ext_resource type="PackedScene" uid="uid://d283iv0orai5g" path="res://Scenes/parodos.tscn" id="5_qi0cd"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="6_572aa"]
 

@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0nrbjjrec246"]
+
+[ext_resource type="Script" path="res://Scripts/moving_platform.gd" id="1_81quf"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="1_i2ql4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lxs7w"]
+material = ExtResource("1_i2ql4")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2yx7s"]
+
+[node name="moving_platform" type="CharacterBody3D"]
+script = ExtResource("1_81quf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_lxs7w")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_2yx7s")

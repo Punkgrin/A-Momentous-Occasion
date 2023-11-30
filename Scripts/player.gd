@@ -5,7 +5,7 @@ signal on_obtaining_blundergust
 # There's not much rhyme or reason for the placement of any of these variables
 const max_speed = 10
 const air_accel = 15
-const wall_magnetism = 10
+const wall_magnetism = 30
 const walk = 5.0
 const sprint = 8.0
 const jump = 6
@@ -31,10 +31,14 @@ var speed
 var gravity = 9.8
 var double_jump = 0
 
+# Silly tween
+var angle_tween
+
 @onready var head = $PitchPivot
 @onready var camera = $PitchPivot/RollPivot/Camera3D
 
 @export var kill_point = -100
+@export var blundergust_color_value = Color.WHITE
 
 var blundergust = preload("res://Effects/blundergust.tres")
 var blundergust_pickup = preload("res://Scenes/blundergust_pickup.tscn")
@@ -45,9 +49,11 @@ var jump_effect_scene = preload("res://Effects/jump_effect.tscn")
 # Captures the mouse
 func _ready(): 
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	blundergust.albedo_color = Color.WHITE
 	$PitchPivot/RollPivot/Camera3D/Blundergust.visible = Player.has_blundergust
 	$PitchPivot/RollPivot/Camera3D/Pixelation.visible = Player.visible
 	$PitchPivot/RollPivot/Camera3D/Pixelation.set_surface_override_material(0, Player.material)
+
 # Camera Movement
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -73,6 +79,9 @@ func _physics_process(delta):
 	Player.relative_speed = relative_speed
 	Player.total_speed = total_speed
 	Player.in_range_pickup = $PitchPivot/RollPivot/Camera3D/Pickup.is_colliding()
+
+	# Update the silly tween
+	angle_tween = get_tree().create_tween()
 
 	# Wind (wow)
 	$Wind.volume_db = -70 + 5 * sqrt(total_speed)
@@ -100,6 +109,9 @@ func _physics_process(delta):
 
 	# Kills the player after falling past the kill point
 	if (position.y <= kill_point):
+		$BlundergustCooldown.stop()
+		$Heat.stop()
+		blundergust_color_value = Color.WHITE
 		position = Vector3.UP
 		velocity = Vector3.ZERO
 
@@ -170,7 +182,6 @@ func handle_inputs(delta):
 		$Step.stop()
 
 	# WALLRUNNING!!! (sort of)
-	var angle_tween = get_tree().create_tween()
 	if ((on_left_wall || on_right_wall) && is_on_wall_only() && input_dir.y < 0 && !is_on_floor()):
 		if on_left_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, -20), 1);
 		if on_right_wall: angle_tween.tween_property($PitchPivot/RollPivot, "rotation_degrees", Vector3(0, 0, 20), 1);
@@ -194,7 +205,6 @@ func handle_inputs(delta):
 
 	# Firing out steam from the blundergust
 	if Input.is_action_just_pressed("Fire") && $BlundergustCooldown.is_stopped() && Player.has_blundergust == true:
-		var color_tween = get_tree().create_tween().set_trans(Tween.TRANS_SINE)
 		var steam = steam_scene.instantiate()
 		var firing_vector = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint/FireVector.global_position - $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
 		steam.position = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
@@ -203,15 +213,14 @@ func handle_inputs(delta):
 		get_parent().add_child(steam)
 		$BlundergustCooldown.start()
 		$BlundergustAnimations.current_animation = "fire"
+		$Heat.current_animation = "heat"
 		$Fire.play()
 		velocity -= firing_vector * blundergust_power
-		blundergust.albedo_color = Color.RED
-		color_tween.tween_property(blundergust, "albedo_color", Color.WHITE, 10)
 	elif Input.is_action_just_pressed("Fire") && !$BlundergustCooldown.is_stopped(): $Empty.play();
+	blundergust.albedo_color = blundergust_color_value
 
 	# Picking up the blundergust for more dramatic effect (literally no other reason) 
 	if Input.is_action_just_pressed("Use") && Player.in_range_pickup && $PitchPivot/RollPivot/Camera3D/Pickup.get_collider().blundergust == true:
 		Player.has_blundergust = true
 		$PitchPivot/RollPivot/Camera3D/Blundergust.visible = true
 		$PitchPivot/RollPivot/Camera3D/Pickup.get_collider().queue_free()
-	

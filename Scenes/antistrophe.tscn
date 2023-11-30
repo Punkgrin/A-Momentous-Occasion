@@ -1,0 +1,259 @@
+[gd_scene load_steps=13 format=3 uid="uid://dngsehd40jla3"]
+
+[ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="1_2y4h6"]
+[ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="2_dlwqf"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="3_3dv5c"]
+[ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_anfsn"]
+[ext_resource type="PackedScene" uid="uid://c0nrbjjrec246" path="res://Scenes/moving_platform.tscn" id="4_d14ga"]
+[ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="5_54qu2"]
+[ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="6_63t25"]
+[ext_resource type="PackedScene" uid="uid://d1sxncqwba4g4" path="res://Scenes/scale.tscn" id="8_4b3oo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7m6k"]
+sky_top_color = Color(0, 0.478431, 0.713726, 1)
+sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
+sky_curve = 0.106066
+sky_energy_multiplier = 1.5
+ground_bottom_color = Color(0.34902, 0.34902, 0.34902, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_drrba"]
+sky_material = SubResource("ProceduralSkyMaterial_j7m6k")
+
+[sub_resource type="Environment" id="Environment_w78l8"]
+background_mode = 2
+background_color = Color(0.301961, 0.411765, 0.407843, 1)
+sky = SubResource("Sky_drrba")
+fog_sky_affect = 0.195
+volumetric_fog_density = 0.015
+adjustment_brightness = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ikk1x"]
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 10.0
+
+[node name="antistrophe" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w78l8")
+camera_attributes = SubResource("CameraAttributesPractical_ikk1x")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
+
+[node name="LevelDisplayer" parent="." instance=ExtResource("1_2y4h6")]
+text = "Antistrophê"
+
+[node name="Player" parent="." instance=ExtResource("2_dlwqf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+kill_point = -25
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="SpeedGates" parent="Terrain" instance=ExtResource("5_54qu2")]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 48, -320)
+open_speed = 60.0
+
+[node name="blundergust_pickup" parent="Terrain" instance=ExtResource("3_anfsn")]
+
+[node name="JumpPad" parent="Terrain" instance=ExtResource("6_63t25")]
+transform = Transform3D(1.83712, -1.06066, -2.12132, 1.5, 2.59808, 0, 1.83712, -1.06066, 2.12132, -66.9125, 25.8179, -231.164)
+
+[node name="scale" parent="Terrain" instance=ExtResource("8_4b3oo")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 148, 1, -1207.81)
+
+[node name="moving_platform" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -16)
+movement_vector = Vector3(0, 25, 0)
+movement_speed = 10
+
+[node name="moving_platform2" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 47.5, -50)
+movement_vector = Vector3(0, 0, -40)
+movement_speed = 10
+
+[node name="moving_platform3" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.9135, -1, -759.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform4" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.9135, -1, -749.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform5" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.9135, -1, -759.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform6" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.9135, -1, -749.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform7" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.9135, -1, -759.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform8" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.9135, -1, -749.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform9" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.91351, -1, -759.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform10" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.91351, -1, -749.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform11" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.9135, -1, -779.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform12" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.9135, -1, -769.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform13" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.9135, -1, -779.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="moving_platform14" parent="Terrain" instance=ExtResource("4_d14ga")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.9135, -1, -769.234)
+movement_vector = Vector3(40, 0, -40)
+movement_speed = 5
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 47.5, -33)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 47.5, -245)
+use_collision = true
+size = Vector3(30, 1, 200)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73, -0.5, -569)
+use_collision = true
+size = Vector3(50, 1, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148, -0.5, -1069)
+use_collision = true
+size = Vector3(30, 1, 51.7708)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.5, -956)
+use_collision = true
+size = Vector3(78.2807, 1, 85.8989)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148, -0.5, -1189)
+use_collision = true
+size = Vector3(30, 1, 51.7708)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -139, 47.5, -338)
+use_collision = true
+size = Vector3(1, 50, 200)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 3.82578, 58.6975, -396)
+use_collision = true
+size = Vector3(1, 30, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -102.174, 9.69748, -755)
+use_collision = true
+size = Vector3(1, 30, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -146.174, 9.69748, -624)
+use_collision = true
+size = Vector3(1, 30, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 176.826, 9.69748, -1020)
+use_collision = true
+size = Vector3(1, 30, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 117.826, 9.69748, -1129)
+use_collision = true
+size = Vector3(1, 30, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -20.1742, 9.69748, -487)
+use_collision = true
+size = Vector3(1, 30, 100)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 75.8258, 9.69748, -797)
+use_collision = true
+size = Vector3(1, 30, 301.684)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -22, 47.45, -186)
+use_collision = true
+size = Vector3(30, 1, 50)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, -54.7336, 35.0128, -219)
+use_collision = true
+size = Vector3(30, 1, 50)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 24.5, -20)
+use_collision = true
+size = Vector3(1, 50, 1)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 24.5, -12)
+use_collision = true
+size = Vector3(1, 50, 1)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 24.5, -12)
+use_collision = true
+size = Vector3(1, 50, 1)
+material = ExtResource("3_3dv5c")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 24.5, -20)
+use_collision = true
+size = Vector3(1, 50, 1)
+material = ExtResource("3_3dv5c")

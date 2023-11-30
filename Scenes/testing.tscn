@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c00hko5rwvkpq" path="res://_albedo.png" id="1_usoax"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_x4moe"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="6_0alxo"]
-[ext_resource type="PackedScene" uid="uid://ca5a5ntf1hv7y" path="res://Scenes/scale.tscn" id="7_qj6e0"]
+[ext_resource type="PackedScene" uid="uid://d1sxncqwba4g4" path="res://Scenes/scale.tscn" id="7_qj6e0"]
 [ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="7_rbjje"]
 [ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="8_tl07g"]
 
@@ -56,6 +56,9 @@ transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 
 transform = Transform3D(-1.74846e-07, 0, 4, 0, 4, 0, -4, 0, -1.74846e-07, 200, 0, 0)
 
 [node name="Terrain" type="Node3D" parent="."]
+
+[node name="scale" parent="Terrain" instance=ExtResource("7_qj6e0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 240, 0, 0)
 
 [node name="JumpPad" parent="Terrain" instance=ExtResource("4_x4moe")]
 transform = Transform3D(1.73205, 1, 0, -1, 1.73205, 0, 0, 0, 2, 29, -11, 0)
@@ -142,6 +145,3 @@ size = Vector3(1, 10, 15)
 
 [node name="LevelDisplayer" parent="." instance=ExtResource("7_rbjje")]
 text = "Test"
-
-[node name="scale" parent="." instance=ExtResource("7_qj6e0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 240, 0, 0)

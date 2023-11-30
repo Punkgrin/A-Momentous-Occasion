@@ -1,0 +1,158 @@
+[gd_scene load_steps=12 format=3 uid="uid://daajyrqskndrn"]
+
+[ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="1_63j4c"]
+[ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="2_hg045"]
+[ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="3_b6vg4"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="3_ux2bn"]
+[ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="4_ieck6"]
+[ext_resource type="PackedScene" uid="uid://dngsehd40jla3" path="res://Scenes/antistrophe.tscn" id="6_stg4a"]
+[ext_resource type="PackedScene" uid="uid://d1sxncqwba4g4" path="res://Scenes/scale.tscn" id="7_cnv66"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3bau8"]
+sky_top_color = Color(0, 0.478431, 0.713726, 1)
+sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
+sky_curve = 0.106066
+sky_energy_multiplier = 1.5
+ground_bottom_color = Color(0.34902, 0.34902, 0.34902, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_umkwf"]
+sky_material = SubResource("ProceduralSkyMaterial_3bau8")
+
+[sub_resource type="Environment" id="Environment_qh7e7"]
+background_mode = 2
+background_color = Color(0.301961, 0.411765, 0.407843, 1)
+sky = SubResource("Sky_umkwf")
+fog_sky_affect = 0.195
+volumetric_fog_density = 0.015
+adjustment_brightness = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1tn0s"]
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 10.0
+
+[node name="strophe" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qh7e7")
+camera_attributes = SubResource("CameraAttributesPractical_1tn0s")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
+
+[node name="LevelDisplayer" parent="." instance=ExtResource("1_63j4c")]
+text = "Strophê"
+
+[node name="Player" parent="." instance=ExtResource("2_hg045")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="SpeedGates" parent="Terrain" instance=ExtResource("3_b6vg4")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, -272)
+open_speed = 40.0
+
+[node name="SpeedGates2" parent="Terrain" instance=ExtResource("3_b6vg4")]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 1, -703)
+open_speed = 50.0
+
+[node name="JumpPad" parent="Terrain" instance=ExtResource("4_ieck6")]
+transform = Transform3D(-1.13566e-07, -6.55671e-08, 3, -1.5, 2.59808, 0, -2.59808, -1.5, -1.31134e-07, 0, -4, -12)
+boost_power = 75
+
+[node name="JumpPad2" parent="Terrain" instance=ExtResource("4_ieck6")]
+transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, 0, 0, -630)
+
+[node name="scale" parent="Terrain" instance=ExtResource("7_cnv66")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, -742.431)
+next_stage = ExtResource("6_stg4a")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(10, 1, 10)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -173)
+use_collision = true
+size = Vector3(10, 1, 200)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -385)
+use_collision = true
+size = Vector3(30, 1, 100)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -653)
+use_collision = true
+size = Vector3(75, 1, 100)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -741)
+use_collision = true
+size = Vector3(25, 1, 25)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 32.5, -780)
+use_collision = true
+size = Vector3(75, 1, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -10, 5.5, -484)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -28, 5.5, -484)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 10, 5.5, -484)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 28, 5.5, -484)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, 0.258819, -2.26267e-08, -1, 8.44439e-08, 0.258819, -8.74228e-08, -0.965926, -10, 5.5, -556)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, 0.258819, -2.26267e-08, -1, 8.44439e-08, 0.258819, -8.74228e-08, -0.965926, -28, 5.5, -556)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, -0.258819, 2.26267e-08, -1, 8.44439e-08, -0.258819, -8.74228e-08, -0.965926, 10, 5.5, -556)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(0.965926, 0, -0.258819, 2.26267e-08, -1, 8.44439e-08, -0.258819, -8.74228e-08, -0.965926, 28, 5.5, -556)
+use_collision = true
+size = Vector3(1, 15, 75)
+material = ExtResource("3_ux2bn")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -2.93237, -9)
+use_collision = true
+size = Vector3(10, 1, 10)
+material = ExtResource("3_ux2bn")
