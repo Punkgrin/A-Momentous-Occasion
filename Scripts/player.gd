@@ -83,8 +83,9 @@ func _physics_process(delta):
 	# Update the silly tween
 	angle_tween = get_tree().create_tween()
 
-	# Wind (wow)
+	# Wind & (cool) music change
 	$Wind.volume_db = -70 + 5 * sqrt(total_speed)
+	$Intense.volume_db = -20 + 3 * sqrt(total_speed)
 	$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = 1 + sqrt(total_speed) / 10
 	$PitchPivot/RollPivot/Camera3D/Wind.amount = 10 + int(sqrt(total_speed) * 1.5)
 	if (total_speed >= 15):

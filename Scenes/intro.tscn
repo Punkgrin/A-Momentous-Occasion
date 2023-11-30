@@ -17,10 +17,10 @@ tracks/0/path = NodePath("GithubContainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 3, 4),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0, -841), Vector2(0, 0), Vector2(0, 0), Vector2(0, 1080)]
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 1080)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -108,8 +108,7 @@ autostart = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 1080.0
-offset_bottom = 1080.0
+offset_bottom = -0.000488281
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_qveca")
@@ -130,11 +129,12 @@ size_flags_vertical = 4
 texture = ExtResource("4_8nknk")
 
 [node name="GodotContainer" type="MarginContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 91.7708
-offset_right = 91.7709
+offset_left = -1762.0
+offset_right = -1762.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_qveca")
@@ -234,7 +234,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 100
-text = "Hakita"
+text = "Toby Fox"
 
 [node name="Label3" type="Label" parent="InspirationContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2

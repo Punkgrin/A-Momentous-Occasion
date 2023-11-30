@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dxafvr5ltlxe4"]
+[gd_scene load_steps=23 format=3 uid="uid://dxafvr5ltlxe4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gfmja"]
 [ext_resource type="Material" uid="uid://qy7hxwe1pqe5" path="res://Effects/blundergust.tres" id="2_yvco2"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://5w82vr00vgq1" path="res://SFX/slide.wav" id="11_r66rs"]
 [ext_resource type="AudioStream" uid="uid://c513jxof6mork" path="res://SFX/emptyshot.wav" id="12_ieg21"]
 [ext_resource type="AudioStream" uid="uid://dft83q1uy7x27" path="res://SFX/wind.wav" id="12_rbna6"]
+[ext_resource type="AudioStream" uid="uid://cnxjytorg42p5" path="res://SFX/movementloop_intense.wav" id="13_eh22t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dx43"]
 
@@ -184,3 +185,8 @@ stream = ExtResource("12_rbna6")
 volume_db = -50.0
 autoplay = true
 bus = &"SFX"
+
+[node name="Intense" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_eh22t")
+autoplay = true
+bus = &"Music"

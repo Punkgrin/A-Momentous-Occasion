@@ -45,6 +45,7 @@ text = "Strophê"
 
 [node name="Player" parent="." instance=ExtResource("2_hg045")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+kill_point = -50
 
 [node name="Terrain" type="Node3D" parent="."]
 

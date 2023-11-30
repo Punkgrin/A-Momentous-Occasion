@@ -1,3 +1,43 @@
-[gd_scene format=3 uid="uid://ewtrkfs761it"]
+[gd_scene load_steps=7 format=3 uid="uid://ewtrkfs761it"]
+
+[ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="1_0e7ge"]
+[ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="2_tia3p"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cr5qi"]
+sky_top_color = Color(0, 0.478431, 0.713726, 1)
+sky_horizon_color = Color(0.494118, 0.67451, 0.85098, 1)
+sky_curve = 0.106066
+sky_energy_multiplier = 1.5
+ground_bottom_color = Color(0.34902, 0.34902, 0.34902, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_drrba"]
+sky_material = SubResource("ProceduralSkyMaterial_cr5qi")
+
+[sub_resource type="Environment" id="Environment_lgmtc"]
+background_mode = 2
+background_color = Color(0.301961, 0.411765, 0.407843, 1)
+sky = SubResource("Sky_drrba")
+fog_sky_affect = 0.195
+volumetric_fog_density = 0.015
+adjustment_brightness = 1.08
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_m8kts"]
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 10.0
 
 [node name="exodos" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lgmtc")
+camera_attributes = SubResource("CameraAttributesPractical_m8kts")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
+
+[node name="LevelDisplayer" parent="." instance=ExtResource("1_0e7ge")]
+text = "Antistrophê"
+
+[node name="Player" parent="." instance=ExtResource("2_tia3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+kill_point = -25
