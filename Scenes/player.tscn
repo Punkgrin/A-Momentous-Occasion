@@ -188,5 +188,6 @@ bus = &"SFX"
 
 [node name="Intense" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_eh22t")
+volume_db = -30.0
 autoplay = true
 bus = &"Music"

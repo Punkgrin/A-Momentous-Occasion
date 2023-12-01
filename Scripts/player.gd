@@ -84,8 +84,8 @@ func _physics_process(delta):
 	angle_tween = get_tree().create_tween()
 
 	# Wind & (cool) music change
-	$Wind.volume_db = -70 + 5 * sqrt(total_speed)
-	$Intense.volume_db = -20 + 3 * sqrt(total_speed)
+	$Intense.volume_db = lerp($Intense.volume_db, -30 + 4 * sqrt(total_speed), delta)
+	$Wind.volume_db = lerp($Wind.volume_db, -70 + 5 * sqrt(total_speed), delta)
 	$PitchPivot/RollPivot/Camera3D/Wind.speed_scale = 1 + sqrt(total_speed) / 10
 	$PitchPivot/RollPivot/Camera3D/Wind.amount = 10 + int(sqrt(total_speed) * 1.5)
 	if (total_speed >= 15):

@@ -1,7 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://ewtrkfs761it"]
+[gd_scene load_steps=16 format=3 uid="uid://ewtrkfs761it"]
 
 [ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="1_0e7ge"]
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="2_tia3p"]
+[ext_resource type="PackedScene" uid="uid://c0nrbjjrec246" path="res://Scenes/moving_platform.tscn" id="3_c66h6"]
+[ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="3_die4o"]
+[ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="3_mfskf"]
+[ext_resource type="PackedScene" uid="uid://dxgufrm8nhm7d" path="res://Models/mountain.glb" id="4_c3snt"]
+[ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="4_p451q"]
+[ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="5_cj8c8"]
+[ext_resource type="PackedScene" uid="uid://d1sxncqwba4g4" path="res://Scenes/scale.tscn" id="7_k7fay"]
+[ext_resource type="PackedScene" uid="uid://dj1nn6xunhdk8" path="res://Scenes/nice.tscn" id="8_wv0cq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cr5qi"]
 sky_top_color = Color(0, 0.478431, 0.713726, 1)
@@ -26,6 +34,9 @@ adjustment_brightness = 1.08
 dof_blur_far_distance = 200.0
 dof_blur_far_transition = 10.0
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d7ihb"]
+points = PackedVector3Array(0, 1, 0, 1, -1, -1, -1, -1, -1, -1, -1, 1, 1, -1, 1)
+
 [node name="exodos" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -36,8 +47,98 @@ camera_attributes = SubResource("CameraAttributesPractical_m8kts")
 transform = Transform3D(1, 0, 0, 0, 0.880188, 0.474626, 0, -0.474626, 0.880188, 0, 4.87733, 6.85643)
 
 [node name="LevelDisplayer" parent="." instance=ExtResource("1_0e7ge")]
-text = "Antistrophê"
+text = "Exodos"
 
 [node name="Player" parent="." instance=ExtResource("2_tia3p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-kill_point = -25
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="SpeedGates" parent="Terrain" instance=ExtResource("3_die4o")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, -899)
+open_speed = 75.0
+
+[node name="mountain" parent="Terrain" instance=ExtResource("4_c3snt")]
+transform = Transform3D(100, 0, 0, 0, 50, 0, 0, 0, 100, 0, 2, -1540)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Terrain/mountain"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/mountain/StaticBody3D"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_d7ihb")
+
+[node name="blundergust_pickup" parent="Terrain" instance=ExtResource("4_p451q")]
+
+[node name="scale" parent="Terrain" instance=ExtResource("7_k7fay")]
+transform = Transform3D(-6.55671e-07, 0, 15, 0, 15, 0, -15, 0, -6.55671e-07, 0, 252.5, -1540.02)
+next_stage = ExtResource("8_wv0cq")
+
+[node name="moving_platform" parent="Terrain" instance=ExtResource("3_c66h6")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, -23, 0, -137)
+movement_vector = Vector3(0, 0, -30)
+movement_speed = 10
+
+[node name="moving_platform2" parent="Terrain" instance=ExtResource("3_c66h6")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 23, 0, -137)
+movement_vector = Vector3(0, 0, -30)
+movement_speed = 10
+
+[node name="JumpPad" parent="Terrain" instance=ExtResource("5_cj8c8")]
+transform = Transform3D(-1.13566e-07, -6.55671e-08, 3, -1.5, 2.59808, 0, -2.59808, -1.5, -1.31134e-07, 0, -2.633, -20)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -5)
+use_collision = true
+size = Vector3(10, 1, 20)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -136)
+use_collision = true
+size = Vector3(20, 1, 40)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -459)
+use_collision = true
+size = Vector3(50, 1, 200)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -809)
+use_collision = true
+size = Vector3(50, 1, 200)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 5.5, -182)
+use_collision = true
+size = Vector3(1, 20, 40)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 5.5, -182)
+use_collision = true
+size = Vector3(1, 20, 40)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -2.94903, -19.0784)
+use_collision = true
+size = Vector3(10, 1, 10)
+material = ExtResource("3_mfskf")
+
+[node name="JumpPad2" parent="Terrain" instance=ExtResource("5_cj8c8")]
+transform = Transform3D(-1.13566e-07, -6.55671e-08, 3, -1.5, 2.59808, 0, -2.59808, -1.5, -1.31134e-07, 0, -2.633, -264)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -249)
+use_collision = true
+size = Vector3(50, 1, 20)
+material = ExtResource("3_mfskf")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Terrain"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, -2.94903, -263.078)
+use_collision = true
+size = Vector3(50, 1, 10)
+material = ExtResource("3_mfskf")

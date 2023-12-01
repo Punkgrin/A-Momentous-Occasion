@@ -3,10 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://dtb43i30a4itt" path="res://Scenes/level_displayer.tscn" id="1_2y4h6"]
 [ext_resource type="PackedScene" uid="uid://dxafvr5ltlxe4" path="res://Scenes/player.tscn" id="2_dlwqf"]
 [ext_resource type="Material" uid="uid://d4hge8amgcfqo" path="res://Effects/steam_shade.tres" id="3_3dv5c"]
-[ext_resource type="PackedScene" uid="uid://rvhsnui8aq8v" path="res://Scenes/blundergust_pickup.tscn" id="3_anfsn"]
 [ext_resource type="PackedScene" uid="uid://c0nrbjjrec246" path="res://Scenes/moving_platform.tscn" id="4_d14ga"]
 [ext_resource type="PackedScene" uid="uid://pb1s6kdjwwxp" path="res://Scenes/speed_gates.tscn" id="5_54qu2"]
 [ext_resource type="PackedScene" uid="uid://ccriuq1c0sx02" path="res://Scenes/jump_pad.tscn" id="6_63t25"]
+[ext_resource type="PackedScene" uid="uid://ewtrkfs761it" path="res://Scenes/exodos.tscn" id="6_uwvg2"]
 [ext_resource type="PackedScene" uid="uid://d1sxncqwba4g4" path="res://Scenes/scale.tscn" id="8_4b3oo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_j7m6k"]
@@ -54,13 +54,12 @@ kill_point = -25
 transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 48, -320)
 open_speed = 60.0
 
-[node name="blundergust_pickup" parent="Terrain" instance=ExtResource("3_anfsn")]
-
 [node name="JumpPad" parent="Terrain" instance=ExtResource("6_63t25")]
 transform = Transform3D(1.83712, -1.06066, -2.12132, 1.5, 2.59808, 0, 1.83712, -1.06066, 2.12132, -66.9125, 25.8179, -231.164)
 
 [node name="scale" parent="Terrain" instance=ExtResource("8_4b3oo")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 148, 1, -1207.81)
+next_stage = ExtResource("6_uwvg2")
 
 [node name="moving_platform" parent="Terrain" instance=ExtResource("4_d14ga")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -16)

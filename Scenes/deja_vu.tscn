@@ -35,7 +35,7 @@ dof_blur_far_transition = 10.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="LevelDisplayer" parent="." instance=ExtResource("2_nrti5")]
-text = "Deja Vu"
+text = "Déjà vu"
 
 [node name="Terrain" type="Node3D" parent="."]
 
