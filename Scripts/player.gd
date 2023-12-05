@@ -205,21 +205,21 @@ func handle_inputs(delta):
 	else: $CollisionShape3D.scale.y = 1;
 
 	# Firing out steam from the blundergust
-	if Input.is_action_just_pressed("Fire") && $BlundergustCooldown.is_stopped() && Player.has_blundergust == true:
-		var steam = steam_scene.instantiate()
-		var firing_vector = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint/FireVector.global_position - $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
-		steam.position = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
-		steam.rotation = $PitchPivot/RollPivot/Camera3D.global_rotation
-		steam.emitting = true
-		get_parent().add_child(steam)
-		$BlundergustCooldown.start()
-		$BlundergustAnimations.current_animation = "fire"
-		$Heat.current_animation = "heat"
-		$Fire.play()
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		velocity -= firing_vector * blundergust_power
-	elif Input.is_action_just_pressed("Fire") && !$BlundergustCooldown.is_stopped(): 
-		$Empty.play()
+	if Input.is_action_just_pressed("Fire"):
+		if $BlundergustCooldown.is_stopped() && Player.has_blundergust == true:
+			var steam = steam_scene.instantiate()
+			var firing_vector = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint/FireVector.global_position - $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
+			steam.position = $PitchPivot/RollPivot/Camera3D/Blundergust/FirePoint.global_position
+			steam.rotation = $PitchPivot/RollPivot/Camera3D.global_rotation
+			steam.emitting = true
+			get_parent().add_child(steam)
+			$BlundergustCooldown.start()
+			$BlundergustAnimations.current_animation = "fire"
+			$Heat.current_animation = "heat"
+			$Fire.play()
+			velocity -= firing_vector * blundergust_power
+		elif !$BlundergustCooldown.is_stopped(): 
+			$Empty.play()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	blundergust.albedo_color = blundergust_color_value
 
