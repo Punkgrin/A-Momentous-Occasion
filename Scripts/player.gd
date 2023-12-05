@@ -216,8 +216,11 @@ func handle_inputs(delta):
 		$BlundergustAnimations.current_animation = "fire"
 		$Heat.current_animation = "heat"
 		$Fire.play()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		velocity -= firing_vector * blundergust_power
-	elif Input.is_action_just_pressed("Fire") && !$BlundergustCooldown.is_stopped(): $Empty.play();
+	elif Input.is_action_just_pressed("Fire") && !$BlundergustCooldown.is_stopped(): 
+		$Empty.play()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	blundergust.albedo_color = blundergust_color_value
 
 	# Picking up the blundergust for more dramatic effect (literally no other reason) 
